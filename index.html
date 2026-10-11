@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOSH'S 日本語 - Hiragana, Katakana, Kotoba N5 & N4</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & M PLUS Rounded 1c -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase App & Realtime Database SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        japanese: ['"M PLUS Rounded 1c"', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        matcha: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        },
+                        sumi: '#2b2b2b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .japanese-font {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.08);
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body id="app-body" class="min-h-screen flex flex-col justify-between selection:bg-accent-200 selection:text-accent-700 bg-[#faf8f5] text-[#2b2b2b] dark:bg-stone-900 dark:text-stone-100 transition-colors duration-300">
+
+    <header class="w-full bg-white/85 dark:bg-stone-800/85 backdrop-blur-md border-b border-stone-200 dark:border-stone-700 sticky top-0 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="app.returnToHome()">
+                <div class="w-10 h-10 rounded-2xl bg-accent-100 dark:bg-accent-900/50 flex items-center justify-center text-accent-600 dark:text-accent-300 font-bold text-xl japanese-font overflow-hidden p-1">
+                    <img src="1000021133.png" alt="Avatar" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null;this.src='https://placehold.co/40x40/2563eb/ffffff?text=あ';">
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-stone-800 dark:text-stone-100 leading-tight">YOSH'S 日本語</h1>
+                    <p class="text-xs text-stone-500 dark:text-stone-400">by iyos_real</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div id="header-stats" class="hidden flex items-center space-x-3">
+                    <div class="text-xs bg-stone-100 dark:bg-stone-700 px-3 py-1.5 rounded-full font-medium text-stone-600 dark:text-stone-300">
+                        <i class="fa-solid fa-fire text-orange-500 mr-1"></i> <span id="stat-streak">0</span>
+                    </div>
+                    <div class="text-xs bg-accent-50 dark:bg-accent-900/40 px-3 py-1.5 rounded-full font-medium text-accent-700 dark:text-accent-300">
+                        <i class="fa-solid fa-star text-accent-500 mr-1"></i> <span id="stat-score">0</span>
+                    </div>
+                </div>
+                <button onclick="app.toggleDarkMode()" id="theme-toggle-btn" class="w-10 h-10 rounded-2xl bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-stone-700 dark:text-amber-400 hover:bg-stone-200 dark:hover:bg-stone-600 transition-all">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-xl">
+
+            <!-- VIEW 0: HOME DASHBOARD -->
+            <div id="view-home" class="bg-white dark:bg-stone-800 rounded-3xl p-6 md:p-8 card-shadow border border-stone-100 dark:border-stone-700 transition-all duration-300 text-center space-y-6">
+                <div class="inline-block w-24 h-24 rounded-3xl bg-accent-50 dark:bg-accent-900/40 flex items-center justify-center text-accent-600 dark:text-accent-300 text-4xl japanese-font mx-auto mb-2 overflow-hidden p-1 card-shadow animate-pulse-subtle">
+                    <img src="1000021133.png" alt="Avatar" class="w-full h-full object-cover rounded-2xl" onerror="this.onerror=null;this.src='https://placehold.co/96x96/2563eb/ffffff?text=あ';">
+                </div>
+                <div>
+                    <span class="inline-block bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2">
+                        YOSH'S 日本語 • Portal Belajar
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-800 dark:text-stone-100 mb-2">Selamat Datang, Pejuang Nihongo</h2>
+                    <p class="text-stone-500 dark:text-stone-400 text-sm max-w-sm mx-auto">masih belum sempurna btw, enjoy guys -satria</p>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div class="bg-stone-50 dark:bg-stone-700/50 p-4 rounded-2xl border border-stone-100 dark:border-stone-700 text-left">
+                        <label for="player-name-input" class="block text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold mb-1.5">Masukan Nama <span class="text-accent-500">*Wajib</span></label>
+                        <input type="text" id="player-name-input" oninput="app.updatePlayerName(this.value)" placeholder="Nama kamu..." autocomplete="off"
+                            class="w-full px-4 py-2.5 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 focus:border-accent-500 focus:outline-none text-sm font-bold text-stone-800 dark:text-stone-100 placeholder:text-stone-300 dark:placeholder:text-stone-600 transition-all">
+                        <p id="name-error-msg" class="text-rose-500 text-xs mt-1.5 hidden font-medium"><i class="fa-solid fa-circle-exclamation mr-1"></i> Harap masukkan nama kamu terlebih dahulu!</p>
+                    </div>
+
+                    <!-- Online Global Leaderboard Widget -->
+                    <div class="bg-stone-50 dark:bg-stone-700/50 p-4 rounded-2xl border border-stone-100 dark:border-stone-700 text-left">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold"><i class="fa-solid fa-globe mr-1 text-accent-500"></i> Leaderboard Online Global</span>
+                            <button onclick="app.fetchGlobalLeaderboard()" class="text-[11px] text-accent-600 dark:text-accent-400 font-bold hover:underline"><i class="fa-solid fa-rotate mr-1"></i> Refresh</button>
+                        </div>
+                        <div id="global-leaderboard-list" class="max-h-40 overflow-y-auto pr-1 space-y-1.5 text-xs">
+                            <p class="text-stone-400 text-center py-2">Memuat peringkat online...</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-stone-50 dark:bg-stone-700/50 p-4 rounded-2xl border border-stone-100 dark:border-stone-700 text-left">
+                            <div class="text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold">Total Sesi Selesai</div>
+                            <div id="home-total-quiz" class="text-xl font-bold text-stone-800 dark:text-stone-100 mt-1">0</div>
+                        </div>
+                        <div class="bg-stone-50 dark:bg-stone-700/50 p-4 rounded-2xl border border-stone-100 dark:border-stone-700 text-left">
+                            <div class="text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold">Total Poin Akumulasi</div>
+                            <div id="home-best-score" class="text-xl font-bold text-accent-600 dark:text-accent-400 mt-1">0 Pt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <button onclick="app.goToConfig()" class="w-full py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-2xl shadow-lg shadow-accent-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Latihan Kana</span>
+                    </button>
+                    <button onclick="app.goToKotobaConfig()" class="w-full py-4 bg-matcha-600 hover:bg-matcha-700 text-white font-bold rounded-2xl shadow-lg shadow-matcha-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        <span>Kotoba N5</span>
+                    </button>
+                    <button onclick="app.goToKotobaN4Config()" class="w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-lg shadow-teal-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <span>Kotoba N4</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 1: CONFIGURATION (KANA) -->
+            <div id="view-config" class="hidden bg-white dark:bg-stone-800 rounded-3xl p-6 md:p-8 card-shadow border border-stone-100 dark:border-stone-700 transition-all duration-300">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="app.returnToHome()" class="text-xs font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 flex items-center space-x-1">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <span class="inline-block bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Pengaturan Kuis Kana
+                    </span>
+                </div>
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-stone-800 dark:text-stone-100 mb-1">Konfigurasi Latihan Kana</h2>
+                    <p class="text-stone-500 dark:text-stone-400 text-sm">Pilih mode, kategori, dan jenis latihan sesuai kebutuhanmu.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <button onclick="app.openIndexModal()" class="w-full py-3.5 px-4 bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold rounded-2xl transition-all flex items-center justify-center space-x-2 text-sm border border-stone-200 dark:border-stone-600">
+                            <i class="fa-solid fa-book-open text-accent-600 dark:text-accent-400"></i>
+                            <span>Buka Indeks Kana & Kosa Kata</span>
+                        </button>
+                    </div>
+
+                    <!-- Aksara Type -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Jenis Aksara</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" onclick="app.setKanaType('hiragana')" id="btn-type-hiragana" class="kana-type-btn py-3 px-4 rounded-2xl border-2 border-accent-500 bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 font-semibold text-sm transition-all flex flex-col items-center justify-center space-y-1">
+                                <span class="text-lg japanese-font">あ</span>
+                                <span>Hiragana</span>
+                            </button>
+                            <button type="button" onclick="app.setKanaType('katakana')" id="btn-type-katakana" class="kana-type-btn py-3 px-4 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-sm transition-all flex flex-col items-center justify-center space-y-1 hover:border-stone-300 dark:hover:border-stone-600">
+                                <span class="text-lg japanese-font">ア</span>
+                                <span>Katakana</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Kategori Tingkat Kesulitan -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Kategori / Tingkat</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" onclick="app.setCategory('gojuuon')" id="btn-cat-gojuuon" class="cat-btn py-3 px-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 font-semibold text-xs sm:text-sm text-left transition-all">
+                                <div class="font-bold truncate">Gojuuon Dasar</div>
+                                <div class="text-[11px] text-accent-600 dark:text-accent-400 font-normal mt-0.5 truncate">a, i, u, e, o s.d. n</div>
+                            </button>
+                            <button type="button" onclick="app.setCategory('dakuten')" id="btn-cat-dakuten" class="cat-btn py-3 px-3.5 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-xs sm:text-sm text-left transition-all hover:border-stone-300 dark:hover:border-stone-600">
+                                <div class="font-bold truncate">Dakuon & Handakuon</div>
+                                <div class="text-[11px] text-stone-400 dark:text-stone-400 font-normal mt-0.5 truncate">ga, za, da, ba, pa</div>
+                            </button>
+                            <button type="button" onclick="app.setCategory('yoon')" id="btn-cat-yoon" class="cat-btn py-3 px-3.5 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-xs sm:text-sm text-left transition-all hover:border-stone-300 dark:hover:border-stone-600">
+                                <div class="font-bold truncate">Yoon (Kombinasi)</div>
+                                <div class="text-[11px] text-stone-400 dark:text-stone-400 font-normal mt-0.5 truncate">kya, sha, cha, nya</div>
+                            </button>
+                            <button type="button" onclick="app.setCategory('vocab')" id="btn-cat-vocab" class="cat-btn py-3 px-3.5 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-xs sm:text-sm text-left transition-all hover:border-stone-300 dark:hover:border-stone-600">
+                                <div class="font-bold truncate">Kosa Kata (Vocab)</div>
+                                <div class="text-[11px] text-stone-400 dark:text-stone-400 font-normal mt-0.5 truncate">Hiragana & Katakana</div>
+                            </button>
+                            <button type="button" onclick="app.setCategory('all')" id="btn-cat-all" class="col-span-2 cat-btn py-3 px-4 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-xs sm:text-sm text-left transition-all hover:border-stone-300 dark:hover:border-stone-600">
+                                <div class="font-bold">Semua Kategori</div>
+                                <div class="text-[11px] text-stone-400 dark:text-stone-400 font-normal mt-0.5">Campuran lengkap kana</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mode Kuis -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Format Pertanyaan</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" onclick="app.setQuizMode('multiple')" id="btn-mode-multiple" class="mode-btn py-3 px-4 rounded-2xl border-2 border-accent-500 bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 font-semibold text-sm text-center transition-all">
+                                <i class="fa-solid fa-list-check mb-1 block text-lg"></i>
+                                Pilihan Ganda
+                            </button>
+                            <button type="button" onclick="app.setQuizMode('input')" id="btn-mode-input" class="mode-btn py-3 px-4 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-semibold text-sm text-center transition-all hover:border-stone-300 dark:hover:border-stone-600">
+                                <i class="fa-solid fa-keyboard mb-1 block text-lg"></i>
+                                Ketik Romaji
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="app.startQuiz()" class="w-full py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-2xl shadow-lg shadow-accent-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <span>Mulai Kuis Kana</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 1.5: CONFIGURATION (KOTOBA N5 - 25 LEVELS) -->
+            <div id="view-kotoba-config" class="hidden bg-white dark:bg-stone-800 rounded-3xl p-6 md:p-8 card-shadow border border-stone-100 dark:border-stone-700 transition-all duration-300">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="app.returnToHome()" class="text-xs font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 flex items-center space-x-1">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <span class="inline-block bg-matcha-50 dark:bg-matcha-900/40 text-matcha-700 dark:text-matcha-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Kotoba N5
+                    </span>
+                </div>
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-stone-800 dark:text-stone-100 mb-1">Pilih Level Kotoba N5</h2>
+                    <p class="text-stone-500 dark:text-stone-400 text-sm">Selesaikan level sebelumnya (100% benar) untuk membuka level selanjutnya.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <button onclick="app.openKotobaIndexModal()" class="w-full py-3.5 px-4 bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold rounded-2xl transition-all flex items-center justify-center space-x-2 text-sm border border-stone-200 dark:border-stone-600">
+                            <i class="fa-solid fa-list text-matcha-600 dark:text-matcha-400"></i>
+                            <span>Lihat Daftar 25 Level Kotoba N5</span>
+                        </button>
+                    </div>
+
+                    <!-- Level Selector Grid (Level 1 - 25) -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Pilih Level (1 - 25)</label>
+                        <div id="kotoba-level-grid" class="grid grid-cols-5 gap-2 max-h-60 overflow-y-auto pr-1">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <button onclick="app.startKotobaQuiz()" class="w-full py-4 bg-matcha-600 hover:bg-matcha-700 text-white font-bold rounded-2xl shadow-lg shadow-matcha-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <span>Mulai Kuis Level <span id="selected-level-badge">1</span> (20 Soal)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 1.6: CONFIGURATION (KOTOBA N4 - 25 LEVELS / 500 KOSAKATA) -->
+            <div id="view-kotoban4-config" class="hidden bg-white dark:bg-stone-800 rounded-3xl p-6 md:p-8 card-shadow border border-stone-100 dark:border-stone-700 transition-all duration-300">
+                <div class="flex items-center justify-between mb-6">
+                    <button onclick="app.returnToHome()" class="text-xs font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 flex items-center space-x-1">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <span class="inline-block bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Kotoba N4
+                    </span>
+                </div>
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-stone-800 dark:text-stone-100 mb-1">Pilih Level Kotoba N4</h2>
+                    <p class="text-stone-500 dark:text-stone-400 text-sm">Selesaikan level sebelumnya (100% benar) untuk membuka level selanjutnya.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <button onclick="app.openKotobaN4IndexModal()" class="w-full py-3.5 px-4 bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold rounded-2xl transition-all flex items-center justify-center space-x-2 text-sm border border-stone-200 dark:border-stone-600">
+                            <i class="fa-solid fa-list text-teal-600 dark:text-teal-400"></i>
+                            <span>Lihat Daftar 25 Level Kotoba N4 (500 Kosakata)</span>
+                        </button>
+                    </div>
+
+                    <!-- Level Selector Grid (Level 1 - 25) -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Pilih Level (1 - 25)</label>
+                        <div id="kotoban4-level-grid" class="grid grid-cols-5 gap-2 max-h-60 overflow-y-auto pr-1">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <button onclick="app.startKotobaN4Quiz()" class="w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-lg shadow-teal-600/20 transition-all flex items-center justify-center space-x-2 text-base">
+                        <span>Mulai Kuis Level <span id="selected-n4-level-badge">1</span> (20 Soal)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 2: QUIZ SCREEN -->
+            <div id="view-quiz" class="hidden space-y-6">
+                <!-- Top Progress Bar & Info -->
+                <div class="bg-white dark:bg-stone-800 rounded-2xl p-4 card-shadow flex items-center justify-between border border-stone-100 dark:border-stone-700">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="app.returnToHome()" class="w-9 h-9 rounded-xl bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-600 transition-all">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <div>
+                            <span id="quiz-progress-text" class="text-xs font-bold text-stone-400 dark:text-stone-400 uppercase">Pertanyaan 1 / 20</span>
+                            <div class="w-32 sm:w-48 bg-stone-100 dark:bg-stone-700 h-2 rounded-full mt-1 overflow-hidden">
+                                <div id="quiz-progress-bar" class="bg-accent-500 h-full rounded-full transition-all duration-300" style="width: 5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center space-x-1.5">
+                            <i class="fa-solid fa-clock"></i>
+                            <span id="quiz-timer">15s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Card -->
+                <div class="bg-white dark:bg-stone-800 rounded-3xl p-8 card-shadow text-center border border-stone-100 dark:border-stone-700 transition-all space-y-6">
+                    <span id="quiz-category-badge" class="inline-block bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 text-xs font-semibold px-3.5 py-1.5 rounded-full">
+                        HIRAGANA • GOJUUON
+                    </span>
+
+                    <div class="my-4">
+                        <div id="question-kana" class="text-6xl md:text-7xl font-bold text-stone-800 dark:text-stone-100 japanese-font tracking-wide select-none">
+                            あ
+                        </div>
+                        <!-- Indonesian Translation Reveal Container (Kotoba Only) -->
+                        <div id="question-translation-box" class="hidden mt-3 inline-block bg-matcha-50 dark:bg-matcha-900/40 text-matcha-700 dark:text-matcha-300 px-4 py-1.5 rounded-full text-sm font-bold border border-matcha-200 dark:border-matcha-800 animate-pulse-subtle">
+                            <i class="fa-solid fa-language mr-1.5"></i> <span id="translation-text">Arti</span>
+                        </div>
+                        <p id="question-subtext" class="text-stone-400 dark:text-stone-400 text-sm mt-3">Bagaimana cara membaca huruf di atas?</p>
+                    </div>
+
+                    <!-- Multiple Choice Container -->
+                    <div id="mode-multiple-container" class="grid grid-cols-2 gap-3.5">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Input Container -->
+                    <div id="mode-input-container" class="hidden space-y-4">
+                        <form onsubmit="app.submitInputAnswer(event)" class="space-y-4">
+                            <input type="text" id="romaji-input" autocomplete="off" placeholder="Ketik furigana/romaji..." 
+                                class="w-full px-5 py-4 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 focus:border-accent-500 focus:outline-none text-center text-lg font-bold text-stone-700 dark:text-stone-100 placeholder:text-stone-300 dark:placeholder:text-stone-600 transition-all">
+                            <button type="submit" class="w-full py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-2xl shadow-lg shadow-accent-600/20 transition-all">
+                                Jawab
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: RESULT & REVIEW SCREEN -->
+            <div id="view-result" class="hidden bg-white dark:bg-stone-800 rounded-3xl p-6 md:p-8 card-shadow border border-stone-100 dark:border-stone-700 text-center space-y-6">
+                <div class="w-20 h-20 bg-accent-50 dark:bg-accent-900/40 rounded-full flex items-center justify-center mx-auto text-accent-600 dark:text-accent-300 text-3xl font-bold mb-2">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-800 dark:text-stone-100 mb-1">Kuis Selesai!</h2>
+                    <p class="text-stone-500 dark:text-stone-400 text-sm" id="result-subtitle">Kerja bagus, pertahankan latihanmu!</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 bg-stone-50 dark:bg-stone-700/50 p-4 rounded-2xl border border-stone-100 dark:border-stone-700">
+                    <div class="text-center">
+                        <span class="block text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold mb-1">Skor Sesi Ini</span>
+                        <span id="final-score" class="text-xl md:text-2xl font-bold text-accent-600 dark:text-accent-400">0</span>
+                    </div>
+                    <div class="text-center border-x border-stone-200 dark:border-stone-600">
+                        <span class="block text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold mb-1">Benar</span>
+                        <span id="final-correct" class="text-xl md:text-2xl font-bold text-emerald-600 dark:text-emerald-400">0</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-xs text-stone-400 dark:text-stone-400 uppercase font-semibold mb-1">Akurasi</span>
+                        <span id="final-accuracy" class="text-xl md:text-2xl font-bold text-stone-700 dark:text-stone-200">0%</span>
+                    </div>
+                </div>
+
+                <!-- Review Section -->
+                <div class="text-left space-y-3">
+                    <h3 class="font-bold text-stone-800 dark:text-stone-100 text-sm uppercase tracking-wider">Review Jawaban</h3>
+                    <div id="review-list" class="max-h-60 overflow-y-auto space-y-2 pr-1">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="flex space-x-3 pt-2">
+                    <button onclick="app.returnToHome()" class="flex-1 py-3.5 bg-stone-100 dark:bg-stone-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-700 dark:text-stone-200 font-bold rounded-2xl transition-all">
+                        Menu Utama
+                    </button>
+                    <button onclick="app.restartLastQuiz()" class="flex-1 py-3.5 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-2xl shadow-lg shadow-accent-600/20 transition-all">
+                        Ulangi Kuis
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- INDEKS KANA MODAL -->
+    <div id="index-modal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-stone-800 w-full max-w-lg rounded-3xl p-6 md:p-8 card-shadow max-h-[90vh] flex flex-col border border-stone-100 dark:border-stone-700">
+            <div class="flex items-center justify-between mb-4 border-b border-stone-100 dark:border-stone-700 pb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-xl bg-accent-50 dark:bg-accent-900/40 flex items-center justify-center text-accent-600 dark:text-accent-300">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-stone-800 dark:text-stone-100">Indeks Kana & Kosa Kata</h3>
+                </div>
+                <button onclick="app.closeIndexModal()" class="w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-600">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 bg-stone-100 dark:bg-stone-700 p-1.5 rounded-2xl mb-4 text-xs font-semibold">
+                <button onclick="app.switchIndexTab('hiragana')" id="tab-idx-hiragana" class="py-2.5 rounded-xl bg-white dark:bg-stone-800 text-accent-700 dark:text-accent-300 shadow-sm transition-all">Hiragana</button>
+                <button onclick="app.switchIndexTab('katakana')" id="tab-idx-katakana" class="py-2.5 rounded-xl text-stone-600 dark:text-stone-300 transition-all">Katakana</button>
+                <button onclick="app.switchIndexTab('vocab')" id="tab-idx-vocab" class="py-2.5 rounded-xl text-stone-600 dark:text-stone-300 transition-all">Kosa Kata</button>
+            </div>
+
+            <div id="index-content-area" class="flex-grow overflow-y-auto pr-1 space-y-4">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- INDEKS KOTOBA N5 MODAL -->
+    <div id="kotoba-index-modal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-stone-800 w-full max-w-lg rounded-3xl p-6 md:p-8 card-shadow max-h-[90vh] flex flex-col border border-stone-100 dark:border-stone-700">
+            <div class="flex items-center justify-between mb-4 border-b border-stone-100 dark:border-stone-700 pb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-xl bg-matcha-50 dark:bg-matcha-900/40 flex items-center justify-center text-matcha-600 dark:text-matcha-300">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-stone-800 dark:text-stone-100">Daftar 25 Level Kotoba N5</h3>
+                </div>
+                <button onclick="app.closeKotobaIndexModal()" class="w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-600">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-stone-400 dark:text-stone-400 mb-3">Total 500 kosakata dan kanji JLPT N5 terbagi menjadi 25 level (20 soal per level).</p>
+            <div id="kotoba-index-content-area" class="flex-grow overflow-y-auto pr-1 space-y-3">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- INDEKS KOTOBA N4 MODAL -->
+    <div id="kotoban4-index-modal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-stone-800 w-full max-w-lg rounded-3xl p-6 md:p-8 card-shadow max-h-[90vh] flex flex-col border border-stone-100 dark:border-stone-700">
+            <div class="flex items-center justify-between mb-4 border-b border-stone-100 dark:border-stone-700 pb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-xl bg-teal-50 dark:bg-teal-900/40 flex items-center justify-center text-teal-600 dark:text-teal-300">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-stone-800 dark:text-stone-100">Daftar 25 Level Kotoba N4 (500 Kosakata)</h3>
+                </div>
+                <button onclick="app.closeKotobaN4IndexModal()" class="w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-600">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-stone-400 dark:text-stone-400 mb-3">Total 500 kosakata dan kanji JLPT N4 terbagi menjadi 25 level (20 soal per level).</p>
+            <div id="kotoban4-index-content-area" class="flex-grow overflow-y-auto pr-1 space-y-3">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full py-4 text-center text-xs text-stone-400 dark:text-stone-500 border-t border-stone-100 dark:border-stone-800">
+        YOSH'S 日本語 &copy; 2026 • Created by iyos_real
+    </footer>
+
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://yoshnihongoquiz-default-rtdb.firebaseio.com/"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // Database Kana & Kosakata Dasar
+        const KANA_DATA = {
+            hiragana: {
+                gojuuon: [
+                    { char: 'あ', romaji: 'a' }, { char: 'い', romaji: 'i' }, { char: 'う', romaji: 'u' }, { char: 'え', romaji: 'e' }, { char: 'お', romaji: 'o' },
+                    { char: 'か', romaji: 'ka' }, { char: 'き', romaji: 'ki' }, { char: 'く', romaji: 'ku' }, { char: 'け', romaji: 'ke' }, { char: 'こ', romaji: 'ko' },
+                    { char: 'さ', romaji: 'sa' }, { char: 'し', romaji: 'shi' }, { char: 'す', romaji: 'su' }, { char: 'せ', romaji: 'se' }, { char: 'そ', romaji: 'so' },
+                    { char: 'た', romaji: 'ta' }, { char: 'ち', romaji: 'chi' }, { char: 'つ', romaji: 'tsu' }, { char: 'て', romaji: 'te' }, { char: 'と', romaji: 'to' },
+                    { char: 'な', romaji: 'na' }, { char: 'に', romaji: 'ni' }, { char: 'ぬ', romaji: 'nu' }, { char: 'ね', romaji: 'ne' }, { char: 'の', romaji: 'no' },
+                    { char: 'は', romaji: 'ha' }, { char: 'ひ', romaji: 'hi' }, { char: 'ふ', romaji: 'fu' }, { char: 'へ', romaji: 'he' }, { char: 'ほ', romaji: 'ho' },
+                    { char: 'ま', romaji: 'ma' }, { char: 'み', romaji: 'mi' }, { char: 'む', romaji: 'mu' }, { char: 'め', romaji: 'me' }, { char: 'も', romaji: 'mo' },
+                    { char: 'や', romaji: 'ya' }, { char: 'ゆ', romaji: 'yu' }, { char: 'よ', romaji: 'yo' },
+                    { char: 'ら', romaji: 'ra' }, { char: 'り', romaji: 'ri' }, { char: 'る', romaji: 'ru' }, { char: 'れ', romaji: 're' }, { char: 'ろ', romaji: 'ro' },
+                    { char: 'わ', romaji: 'wa' }, { char: 'を', romaji: 'wo' }, { char: 'ん', romaji: 'n' }
+                ],
+                dakuten: [
+                    { char: 'が', romaji: 'ga' }, { char: 'ぎ', romaji: 'gi' }, { char: 'ぐ', romaji: 'gu' }, { char: 'げ', romaji: 'ge' }, { char: 'ご', romaji: 'go' },
+                    { char: 'ざ', romaji: 'za' }, { char: 'じ', romaji: 'ji' }, { char: 'ず', romaji: 'zu' }, { char: 'ぜ', romaji: 'ze' }, { char: 'ぞ', romaji: 'zo' },
+                    { char: 'だ', romaji: 'da' }, { char: 'ぢ', romaji: 'ji' }, { char: 'づ', romaji: 'zu' }, { char: 'で', romaji: 'de' }, { char: 'ど', romaji: 'do' },
+                    { char: 'ば', romaji: 'ba' }, { char: 'び', romaji: 'bi' }, { char: 'ぶ', romaji: 'bu' }, { char: 'べ', romaji: 'be' }, { char: 'ぼ', romaji: 'bo' },
+                    { char: 'ぱ', romaji: 'pa' }, { char: 'ぴ', romaji: 'pi' }, { char: 'ぷ', romaji: 'pu' }, { char: 'ぺ', romaji: 'pe' }, { char: 'ぽ', romaji: 'po' }
+                ],
+                yoon: [
+                    { char: 'きゃ', romaji: 'kya' }, { char: 'きゅ', romaji: 'kyu' }, { char: 'きょ', romaji: 'kyo' },
+                    { char: 'しゃ', romaji: 'sha' }, { char: 'しゅ', romaji: 'shu' }, { char: 'しょ', romaji: 'sho' },
+                    { char: 'ちゃ', romaji: 'cha' }, { char: 'ちゅ', romaji: 'chu' }, { char: 'ちょ', romaji: 'cho' },
+                    { char: 'にゃ', romaji: 'nya' }, { char: 'にゅ', romaji: 'nyu' }, { char: 'にょ', romaji: 'nyo' },
+                    { char: 'ひゃ', romaji: 'hya' }, { char: 'ひゅ', romaji: 'hyu' }, { char: 'ひょ', romaji: 'hyo' },
+                    { char: 'みゃ', romaji: 'mya' }, { char: 'みゅ', romaji: 'myu' }, { char: 'みょ', romaji: 'myo' },
+                    { char: 'りゃ', romaji: 'rya' }, { char: 'りゅ', romaji: 'ryu' }, { char: 'りょ', romaji: 'ryo' },
+                    { char: 'ぎゃ', romaji: 'gya' }, { char: 'ぎゅ', romaji: 'gyu' }, { char: 'ぎょ', romaji: 'gyo' },
+                    { char: 'じゃ', romaji: 'ja' }, { char: 'じゅ', romaji: 'ju' }, { char: 'じょ', romaji: 'jo' },
+                    { char: 'びゃ', romaji: 'bya' }, { char: 'びゅ', romaji: 'byu' }, { char: 'びょ', romaji: 'byo' },
+                    { char: 'ぴゃ', romaji: 'pya' }, { char: 'ぴゅ', romaji: 'pyu' }, { char: 'ぴょ', romaji: 'pyo' }
+                ]
+            },
+            katakana: {
+                gojuuon: [
+                    { char: 'ア', romaji: 'a' }, { char: 'イ', romaji: 'i' }, { char: 'ウ', romaji: 'u' }, { char: 'エ', romaji: 'e' }, { char: 'オ', romaji: 'o' },
+                    { char: 'カ', romaji: 'ka' }, { char: 'キ', romaji: 'ki' }, { char: 'ク', romaji: 'ku' }, { char: 'ケ', romaji: 'ke' }, { char: 'コ', romaji: 'ko' },
+                    { char: 'サ', romaji: 'sa' }, { char: 'シ', romaji: 'shi' }, { char: 'ス', romaji: 'su' }, { char: 'セ', romaji: 'se' }, { char: 'ソ', romaji: 'so' },
+                    { char: 'タ', romaji: 'ta' }, { char: 'チ', romaji: 'chi' }, { char: 'ツ', romaji: 'tsu' }, { char: 'テ', romaji: 'te' }, { char: 'ト', romaji: 'to' },
+                    { char: 'ナ', romaji: 'na' }, { char: 'ニ', romaji: 'ni' }, { char: 'ヌ', romaji: 'nu' }, { char: 'ネ', romaji: 'ne' }, { char: 'ノ', romaji: 'no' },
+                    { char: 'ハ', romaji: 'ha' }, { char: 'ヒ', romaji: 'hi' }, { char: 'フ', romaji: 'fu' }, { char: 'ヘ', romaji: 'he' }, { char: 'ホ', romaji: 'ho' },
+                    { char: 'マ', romaji: 'ma' }, { char: 'ミ', romaji: 'mi' }, { char: 'ム', romaji: 'mu' }, { char: 'メ', romaji: 'me' }, { char: 'モ', romaji: 'mo' },
+                    { char: 'ヤ', romaji: 'ya' }, { char: 'ユ', romaji: 'yu' }, { char: 'ヨ', romaji: 'yo' },
+                    { char: 'ラ', romaji: 'ra' }, { char: 'リ', romaji: 'ri' }, { char: 'ル', romaji: 'ru' }, { char: 'レ', romaji: 're' }, { char: 'ロ', romaji: 'ro' },
+                    { char: 'ワ', romaji: 'wa' }, { char: 'ヲ', romaji: 'wo' }, { char: 'ン', romaji: 'n' }
+                ],
+                dakuten: [
+                    { char: 'ガ', romaji: 'ga' }, { char: 'ギ', romaji: 'gi' }, { char: 'グ', romaji: 'gu' }, { char: 'ゲ', romaji: 'ge' }, { char: 'ゴ', romaji: 'go' },
+                    { char: 'ザ', romaji: 'za' }, { char: 'ジ', romaji: 'ji' }, { char: 'ズ', romaji: 'zu' }, { char: 'ゼ', romaji: 'ze' }, { char: 'ゾ', romaji: 'zo' },
+                    { char: 'ダ', romaji: 'da' }, { char: 'ヂ', romaji: 'ji' }, { char: 'づ', romaji: 'zu' }, { char: 'デ', romaji: 'de' }, { char: 'ド', romaji: 'do' },
+                    { char: 'バ', romaji: 'ba' }, { char: 'ビ', romaji: 'bi' }, { char: 'ブ', romaji: 'bu' }, { char: 'ベ', romaji: 'be' }, { char: 'ボ', romaji: 'bo' },
+                    { char: 'パ', romaji: 'pa' }, { char: 'ピ', romaji: 'pi' }, { char: 'プ', romaji: 'pu' }, { char: 'ペ', romaji: 'pe' }, { char: 'ポ', romaji: 'po' }
+                ],
+                yoon: [
+                    { char: 'キャ', romaji: 'kya' }, { char: 'キュ', romaji: 'kyu' }, { char: 'キョ', romaji: 'kyo' },
+                    { char: 'シャ', romaji: 'sha' }, { char: 'シュ', romaji: 'shu' }, { char: 'ショ', romaji: 'sho' },
+                    { char: 'チャ', romaji: 'cha' }, { char: 'チュ', romaji: 'chu' }, { char: 'チョ', romaji: 'cho' },
+                    { char: 'ニャ', romaji: 'nya' }, { char: 'ニュ', romaji: 'nyu' }, { char: 'ニョ', romaji: 'nyo' },
+                    { char: 'ヒャ', romaji: 'hya' }, { char: 'ヒゅ', romaji: 'hyu' }, { char: 'ヒょ', romaji: 'hyo' },
+                    { char: 'ミャ', romaji: 'mya' }, { char: 'ミュ', romaji: 'myu' }, { char: 'ミョ', romaji: 'myo' },
+                    { char: 'リゃ', romaji: 'rya' }, { char: 'リゅ', romaji: 'ryu' }, { char: 'リょ', romaji: 'ryo' },
+                    { char: 'ギャ', romaji: 'gya' }, { char: 'ギュ', romaji: 'gyu' }, { char: 'ギョ', romaji: 'gyo' },
+                    { char: 'ジャ', romaji: 'ja' }, { char: 'ジュ', romaji: 'ju' }, { char: 'ジョ', romaji: 'jo' },
+                    { char: 'ビャ', romaji: 'bya' }, { char: 'びゅ', romaji: 'byu' }, { char: 'びょ', romaji: 'byo' },
+                    { char: 'ピャ', romaji: 'pya' }, { char: 'ピュ', romaji: 'pyu' }, { char: 'ピョ', romaji: 'pyo' }
+                ]
+            },
+            vocab: [
+                { char: 'りんご', romaji: 'ringo', meaning: 'Apel' },
+                { char: 'ねこ', romaji: 'neko', meaning: 'Kucing' },
+                { char: 'いぬ', romaji: 'inu', meaning: 'Anjing' },
+                { char: 'くるま', romaji: 'kuruma', meaning: 'Mobil' },
+                { char: 'さくら', romaji: 'sakura', meaning: 'Bunga Sakura' },
+                { char: 'みず', romaji: 'mizu', meaning: 'Air' },
+                { char: 'ひまわり', romaji: 'himawari', meaning: 'Bunga Matahari' },
+                { char: 'カメラ', romaji: 'kamera', meaning: 'Kamera' },
+                { char: 'テレビ', romaji: 'terebi', meaning: 'Televisi' },
+                { char: 'コーヒー', romaji: 'koohii', meaning: 'Kopi' }
+            ]
+        };
+
+        function generate500KotobaDatabase() {
+            const rawList = [
+                // Level 1
+                { c: '私', f: 'わたし', m: 'Saya / Aku' }, { c: 'あなた', f: 'あなた', m: 'Anda / Kamu' }, { c: '人', f: 'ひと', m: 'Orang' }, { c: '男', f: 'おとこ', m: 'Laki-laki' }, { c: '女', f: 'おんな', m: 'Perempuan' },
+                { c: '父', f: 'ちち', m: 'Ayah (saya)' }, { c: '母', f: 'はは', m: 'Ibu (saya)' }, { c: '兄', f: 'あに', m: 'Kakak laki-laki (saya)' }, { c: '姉', f: 'あね', m: 'Kakak perempuan (saya)' }, { c: '弟', f: 'おとうと', m: 'Adik laki-laki' },
+                { c: '妹', f: 'いもうと', m: 'Adik perempuan' }, { c: '子供', f: 'こども', m: 'Anak-anak' }, { c: '友達', f: 'ともだち', m: 'Teman' }, { c: '家族', f: 'かぞく', m: 'Keluarga' }, { c: '両親', f: 'りょうしん', m: 'Orang tua' },
+                { c: '彼', f: 'かれ', m: 'Dia (laki-laki) / Pacar' }, { c: '彼女', f: 'かのじょ', m: 'Dia (perempuan) / Pacar' }, { c: '先生', f: 'せんせい', m: 'Guru / Dosen' }, { c: '学生', f: 'がくせい', m: 'Pelajar / Mahasiswa' }, { c: '会社員', f: 'かいしゃいん', m: 'Pegawai kantor' },
+
+                // Level 2
+                { c: '今日', f: 'きょう', m: 'Hari ini' }, { c: '明日', f: 'あした', m: 'Besok' }, { c: '昨日', f: 'きのう', m: 'Kemarin' }, { c: '毎日', f: 'まいにち', m: 'Setiap hari' }, { c: '今週', f: 'こんしゅう', m: 'Minggu ini' },
+                { c: '来週', f: 'らいしゅう', m: 'Minggu depan' }, { c: '先週', f: 'せんしゅう', m: 'Minggu lalu' }, { c: '今年', f: 'ことし', m: 'Tahun ini' }, { c: '来年', f: 'らいねん', m: 'Tahun depan' }, { c: '去年', f: 'きょねん', m: 'Tahun lalu' },
+                { c: '月曜日', f: 'げつようび', m: 'Hari Senin' }, { c: '火曜日', f: 'かようび', m: 'Hari Selasa' }, { c: '水曜日', f: 'すいようび', m: 'Hari Rabu' }, { c: '木曜日', f: 'もくようび', m: 'Hari Kamis' }, { c: '金曜日', f: 'きんようび', m: 'Hari Jumat' },
+                { c: '土曜日', f: 'どようび', m: 'Hari Sabtu' }, { c: '日曜日', f: 'にちようび', m: 'Hari Minggu' }, { c: '時間', f: 'じかん', m: 'Jam / Waktu' }, { c: '今', f: 'いま', m: 'Sekarang' }, { c: '時', f: 'じ', m: 'Pukul / Jam' },
+
+                // Level 3
+                { c: '一', f: 'いち', m: 'Satu' }, { c: '二', f: 'に', m: 'Dua' }, { c: '三', f: 'さん', m: 'Tiga' }, { c: '四', f: 'し', m: 'Empat' }, { c: '五', f: 'ご', m: 'Lima' },
+                { c: '六', f: 'ろく', m: 'Enam' }, { c: '七', f: 'なな', m: 'Tujuh' }, { c: '八', f: 'はち', m: 'Delapan' }, { c: '九', f: 'きゅう', m: 'Sembilan' }, { c: '十', f: 'じゅう', m: 'Sepuluh' },
+                { c: '百', f: 'ひゃく', m: 'Seratus' }, { c: '千', f: 'せん', m: 'Seribu' }, { c: '万', f: 'まん', m: 'Sepuluh ribu' }, { c: '円', f: 'えん', m: 'Yen (mata uang)' }, { c: '何', f: 'なに', m: 'Apa' },
+                { c: 'いくつ', f: 'いくつ', m: 'Berapa banyak' }, { c: '最初', f: 'さいしょ', m: 'Pertama / Mula-mula' }, { c: '最後', f: 'さいご', m: 'Terakhir' }, { c: '半', f: 'はん', m: 'Setengah' }, { c: '分', f: 'ふん', m: 'Menit' },
+
+                // Level 4
+                { c: '日本', f: 'にほん', m: 'Jepang' }, { c: '水', f: 'みず', m: 'Air' }, { c: '火', f: 'ひ', m: 'Api' }, { c: '木', f: 'き', m: 'Pohon' }, { c: '金', f: 'かね', m: 'Uang / Emas' },
+                { c: '月', f: 'つき', m: 'Bulan' }, { c: '日', f: 'ひ', m: 'Hari / Matahari' }, { c: '山', f: 'やま', m: 'Gunung' }, { c: '川', f: 'かわ', m: 'Sungai' }, { c: '雨', f: 'あめ', m: 'Hujan' },
+                { c: '空', f: 'そら', m: 'Langit' }, { c: '海', f: 'うみ', m: 'Laut' }, { c: '花', f: 'はな', m: 'Bunga' }, { c: '草', f: 'くさ', m: 'Rumput' }, { c: '雪', f: 'ゆき', m: 'Salju' },
+                { c: '風', f: 'かぜ', m: 'Angin' }, { c: '天気良い', f: 'てんきいい', m: 'Cuaca bagus' }, { c: '天気', f: 'てんき', m: 'Cuaca' }, { c: '世界', f: 'せかい', m: 'Dunia' }, { c: '国', f: 'くに', m: 'Negara' },
+
+                // Level 5
+                { c: '行く', f: 'いく', m: 'Pergi' }, { c: '来る', f: 'くる', m: 'Datang' }, { c: '帰る', f: 'かえる', m: 'Pulang' }, { c: '食べる', f: 'たべる', m: 'Makan' }, { c: '飲む', f: 'のむ', m: 'Minum' },
+                { c: '見る', f: 'みる', m: 'Melihat / Menonton' }, { c: '聞く', f: 'きく', m: 'Mendengar / Bertanya' }, { c: '読む', f: 'よむ', m: 'Membaca' }, { c: '書く', f: 'かく', m: 'Menulis' }, { c: '話す', f: 'はなす', m: 'Berbicara' },
+                { c: '買う', f: 'かう', m: 'Membeli' }, { c: '売る', f: 'うる', m: 'Menjual' }, { c: '会う', f: 'あう', m: 'Bertemu' }, { c: '歩く', f: 'あるく', m: 'Berjalan' }, { c: '走る', f: 'はしる', m: 'Berlari' },
+                { c: '泳ぐ', f: 'およぐ', m: 'Berenang' }, { c: '遊ぶ', f: 'あそぶ', m: 'Bermain' }, { c: '働く', f: 'はたらく', m: 'Bekerja' }, { c: '休む', f: 'やすむ', m: 'Beristirahat / Libur' }, { c: '勉強する', f: 'べんきょうする', m: 'Belajar' },
+
+                // Level 6
+                { c: '大きい', f: 'おおきい', m: 'Besar' }, { c: '小さい', f: 'ちいさい', m: 'Kecil' }, { c: '高い', f: 'たかい', m: 'Tinggi / Mahal' }, { c: '安い', f: 'やすい', m: 'Murah' }, { c: '長い', f: 'ながい', m: 'Panjang' },
+                { c: '短い', f: 'みじかい', m: 'Pendek' }, { c: '広い', f: 'ひろい', m: 'Luas' }, { c: '狭い', f: 'せまい', m: 'Sempit' }, { c: '重い', f: 'おもい', m: 'Berat' }, { c: '軽い', f: 'かるい', m: 'Ringan' },
+                { c: '太い', f: 'ふとい', m: 'Gemuk / Tebal' }, { c: '細い', f: 'ほそい', m: 'Kurus / Tipis' }, { c: '深い', f: 'ふかい', m: 'Dalam' }, { c: '浅い', f: 'あさい', m: 'Dangkal' }, { c: '遠い', f: 'とおい', m: 'Jauh' },
+                { c: '近い', f: 'ちかい', m: 'Dekat' }, { c: '早い', f: 'はやい', m: 'Cepat / Dini' }, { c: '遅い', f: 'おそい', m: 'Lambat / Terlambat' }, { c: '多い', f: 'おおい', m: 'Banyak' }, { c: '少ない', f: 'すくない', m: 'Sedikit' },
+
+                // Level 7
+                { c: '新しい', f: 'あたらしい', m: 'Baru' }, { c: '古い', f: 'ふるい', m: 'Lama / Tua' }, { c: '良い', f: 'いい', m: 'Bagus / Baik' }, { c: '悪い', f: 'わるい', m: 'Buruk / Jelek' }, { c: '暑い', f: 'あつい', m: 'Panas (cuaca)' },
+                { c: '寒い', f: 'さむい', m: 'Dingin (cuaca)' }, { c: '熱い', f: 'あつい', m: 'Panas (benda)' }, { c: '冷たい', f: 'つめたい', m: 'Dingin (benda)' }, { c: '忙しい', f: 'いそがしい', m: 'Sibuk' }, { c: '暇', f: 'ひま', m: 'Luang / Santai' },
+                { c: '楽しい', f: 'たのしい', m: 'Menyenangkan' }, { c: '面白い', f: 'おもしろい', m: 'Menarik / Lucu' }, { c: 'つまらない', f: 'つまらない', m: 'Membosankan' }, { c: '難しい', f: 'むずかしい', m: 'Sulit / Susah' }, { c: '易しい', f: 'やさしい', m: 'Mudah / Gampang' },
+                { c: '優しい', f: 'やさしい', m: 'Baik hati / Lembut' }, { c: '好き', f: 'すき', m: 'Suka' }, { c: '嫌い', f: 'きらい', m: 'Benci / Tidak suka' }, { c: '綺麗', f: 'きれい', m: 'Cantik / Bersih' }, { c: '有名', f: 'ゆうめい', m: 'Terkenal / Populer' },
+
+                // Level 8
+                { c: '学校', f: 'がっこう', m: 'Sekolah' }, { c: '病院', f: 'びょういん', m: 'Rumah sakit' }, { c: '銀行', f: 'ぎんこう', m: 'Bank' }, { c: '郵便局', f: 'ゆうびんきょく', m: 'Kantor pos' }, { c: '図書館', f: 'としょかん', m: 'Perpustakaan' },
+                { c: '駅', f: 'えき', m: 'Stasiun' }, { c: '空港', f: 'くうこう', m: 'Bandara' }, { c: '店', f: 'みせ', m: 'Toko' }, { c: '本屋', f: 'ほんや', m: 'Toko buku' }, { c: 'レストラン', f: 'レストラン', m: 'Restoran' },
+                { c: 'ホテル', f: 'ホテル', m: 'Hotel' }, { c: '家', f: 'いえ', m: 'Rumah' }, { c: '部屋', f: 'へや', m: 'Kamar' }, { c: '庭', f: 'にわ', m: 'Halaman / Kebun' }, { c: '公園', f: 'こうえん', m: 'Taman' },
+                { c: '道', f: 'みち', m: 'Jalan' }, { c: '町', f: 'まち', m: 'Kota' }, { c: '国', f: 'くに', m: 'Negara' }, { c: '会社', f: 'かいしゃ', m: 'Perusahaan' }, { c: '工場', f: 'こうじょう', m: 'Pabrik' },
+
+                // Level 9
+                { c: 'ご飯', f: 'ごはん', m: 'Nasi / Makanan' }, { c: 'パン', f: 'パン', m: 'Roti' }, { c: '肉', f: 'にく', m: 'Daging' }, { c: '魚', f: 'さかな', m: 'Ikan' }, { c: '野菜', f: 'やさい', m: 'Sayuran' },
+                { c: '果物', f: 'くだもの', m: 'Buah-buahan' }, { c: '卵', f: 'たまご', m: 'Telur' }, { c: '水', f: 'みず', m: 'Air putih' }, { c: 'お茶', f: 'おちゃ', m: 'Teh hijau' }, { c: '紅茶', f: 'こうちゃ', m: 'Teh hitam' },
+                { c: '牛乳', f: 'ぎゅうにゅう', m: 'Susu sapi' }, { c: 'コーヒー', f: 'コーヒー', m: 'Kopi' }, { c: '酒', f: 'さけ', m: 'Minuman beralkohol / Sake' }, { c: '塩', f: 'しお', m: 'Garam' }, { c: '砂糖', f: 'さとう', m: 'Gula' },
+                { c: '料理', f: 'りょうり', m: 'Masakan' }, { c: '朝ご飯', f: 'あさごはん', m: 'Sarapan' }, { c: '昼ご飯', f: 'ひるごはん', m: 'Makan siang' }, { c: '晩ご飯', f: 'ばんごはん', m: 'Makan malam' }, { c: '食堂', f: 'しょくどう', m: 'Kantin / Ruang makan' },
+
+                // Level 10
+                { c: '本', f: 'ほん', m: 'Buku' }, { c: '辞書', f: 'じしょ', m: 'Kamus' }, { c: '雑誌', f: 'ざっし', m: 'Majalah' }, { c: '新聞', f: 'しんぶん', m: 'Koran' }, { c: 'ノート', f: 'ノート', m: 'Buku catatan' },
+                { c: '鉛筆', f: 'えんぴつ', m: 'Pensil' }, { c: 'ペン', f: 'ペン', m: 'Pena' }, { c: '机', f: 'つくえ', m: 'Meja' }, { c: '椅子', f: 'いす', m: 'Kursi' }, { c: '時計', f: 'とけい', m: 'Jam tangan / Dinding' },
+                { c: '傘', f: 'かさ', m: 'Payung' }, { c: '鞄', f: 'かばん', m: 'Tas' }, { c: '靴', f: 'くつ', m: 'Sepatu' }, { c: '服', f: 'ふく', m: 'Pakaian' }, { c: '眼鏡', f: 'めがね', m: 'Kacamata' },
+                { c: '鍵', f: 'かぎ', m: 'Kunci' }, { c: '手紙', f: 'てがみ', m: 'Surat' }, { c: '写真', f: 'しゃしん', m: 'Foto' }, { c: '花束', f: 'はなたば', m: 'Buket bunga' }, { c: '切手', f: 'きって', m: 'Prangko' },
+
+                // Level 11
+                { c: '車', f: 'くるま', m: 'Mobil' }, { c: '自転車', f: 'じてんしゃ', m: 'Sepeda' }, { c: '電車', f: 'でんしゃ', m: 'Kereta listrik' }, { c: '地下鉄', f: 'ちかてつ', m: 'Kereta bawah tanah' }, { c: '飛行機', f: 'ひこうき', m: 'Pesawat terbang' },
+                { c: '船', f: 'ふね', m: 'Kapal laut' }, { c: 'バス', f: 'バス', m: 'Bus' }, { c: 'タクシー', f: 'タクシー', m: 'Taksi' }, { c: 'テレビ', f: 'テレビ', m: 'Televisi' }, { c: 'ラジオ', f: 'ラジオ', m: 'Radio' },
+                { c: 'カメラ', f: 'カメラ', m: 'Kamera' }, { c: 'パソコン', f: 'パソコン', m: 'Komputer pribadi' }, { c: '携帯電話', f: 'けいたいでんわ', m: 'Ponsel' }, { c: '切符', f: 'きっぷ', m: 'Tiket' }, { c: '信号', f: 'しんごう', m: 'Lampu lalu lintas' },
+                { c: '橋', f: 'はし', m: 'Jembatan' }, { c: '建物', f: 'たてもの', m: 'Bangunan' }, { c: '窓', f: 'まど', m: 'Jendela' }, { c: 'ドア', f: 'ドア', m: 'Pintu' }, { c: '電気', f: 'でんき', m: 'Listrik / Lampu' },
+
+                // Level 12
+                { c: '開ける', f: 'あける', m: 'Membuka' }, { c: '閉める', f: 'しめる', m: 'Menutup' }, { c: '着る', f: 'きる', m: 'Memakai (pakaian)' }, { c: '脱ぐ', f: 'ぬぐ', m: 'Melepas (pakaian)' }, { c: '履く', f: 'はく', m: 'Memakai (sepatu/celana)' },
+                { c: '被る', f: 'かぶる', m: 'Memakai (topi)' }, { c: '持つ', f: 'もつ', m: 'Membawa / Memiliki' }, { c: '売る', f: 'うる', m: 'Menjual' }, { c: '買う', f: 'かう', m: 'Membeli' }, { c: '払う', f: 'はらう', m: 'Membayar' },
+                { c: '知る', f: 'しる', m: 'Mengetahui / Kenal' }, { c: '分かる', f: 'わかる', m: 'Mengerti / Paham' }, { c: '忘れる', f: 'わすれる', m: 'Lupa' }, { c: '覚える', f: 'おぼえる', m: 'Mengingat / Menghafal' }, { c: '考える', f: 'かんがえる', m: 'Berpikir' },
+                { c: '言う', f: 'いう', m: 'Mengatakan' }, { c: '返事する', f: 'へんじする', m: 'Menjawab / Membalas' }, { c: '質問する', f: 'しつもんする', m: 'Bertanya' }, { c: '答える', f: 'こたえる', m: 'Menjawab' }, { c: '練習する', f: 'れんしゅうする', m: 'Berlatih' },
+
+                // Level 13
+                { c: '赤', f: 'あか', m: 'Merah' }, { c: '青', f: 'あお', m: 'Biru' }, { c: '白', f: 'しろ', m: 'Putih' }, { c: '黒', f: 'くろ', m: 'Hitam' }, { c: '黄色', f: 'きいろ', m: 'Kuning' },
+                { c: '緑', f: 'みどり', m: 'Hijau' }, { c: '茶色', f: 'ちゃいろ', m: 'Cokelat' }, { c: '色', f: 'いろ', m: 'Warna' }, { c: '形', f: 'かたち', m: 'Bentuk' }, { c: '味', f: 'あじ', m: 'Rasa' },
+                { c: '音', f: 'おと', m: 'Suara / Bunyi' }, { c: '声', f: 'こえ', m: 'Suara manusia' }, { c: '匂い', f: 'におい', m: 'Bau / Aroma' }, { c: '光', f: 'ひかり', m: 'Cahaya' }, { c: '影', f: 'かげ', m: 'Bayangan' },
+                { c: '風邪', f: 'かぜ', m: 'Masuk angin / Flu' }, { c: '病気', f: 'びょうき', m: 'Sakit / Penyakit' }, { c: '薬', f: 'くすり', m: 'Obat' }, { c: '元気', f: 'げんき', m: 'Sehat / Bersemangat' }, { c: '安心', f: 'あんしん', m: 'Tenang / Lega' },
+
+                // Level 14
+                { c: 'いつも', f: 'いつも', m: 'Selalu' }, { c: '時々', f: 'ときどき', m: 'Kadang-kadang' }, { c: 'よく', f: 'よく', m: 'Sering / Dengan baik' }, { c: 'あまり', f: 'あまり', m: 'Tidak begitu (diikuti negatif)' }, { c: '全然', f: 'ぜんぜん', m: 'Sama sekali (diikuti negatif)' },
+                { c: 'もう', f: 'もう', m: 'Sudah' }, { c: 'まだ', f: 'まだ', m: 'Belum / Masih' }, { c: 'すぐ', f: 'すぐ', m: 'Segera' }, { c: '後で', f: 'あとで', m: 'Nanti / Setelah ini' }, { c: '初めて', f: 'はじめて', m: 'Pertama kali' },
+                { c: '少し', f: 'すこし', m: 'Sedikit' }, { c: 'たくさん', f: 'たくさん', m: 'Banyak' }, { c: '全部', f: 'ぜんぶ', m: 'Semua' }, { c: '皆', f: 'みんな', m: 'Semua orang' }, { c: '一緒', f: 'いっしょ', m: 'Bersama-sama' },
+                { c: '一人で', f: 'ひとりで', m: 'Sendirian' }, { c: '一緒に', f: 'いっしょに', m: 'Bersama' }, { c: '大切', f: 'たいせつ', m: 'Penting / Berharga' }, { c: '安全', f: 'あんぜん', m: 'Aman' }, { c: '特別', f: 'とくべつ', m: 'Khusus' },
+
+                // Level 15
+                { c: '趣味', f: 'しゅみ', m: 'Hobi' }, { c: '音楽', f: 'おんがく', m: 'Musik' }, { c: '歌', f: 'うた', m: 'Lagu' }, { c: '映画', f: 'えいが', m: 'Film' }, { c: '絵', f: 'え', m: 'Lukisan / Gambar' },
+                { c: 'スポーツ', f: 'スポーツ', m: 'Olahraga' }, { c: 'サッカー', f: 'サッカー', m: 'Sepak bola' }, { c: '野球', f: 'やきゅう', m: 'Bisbol' }, { c: 'テニス', f: 'テニス', m: 'Tenis' }, { c: '旅行', f: 'りょこう', m: 'Wisata / Perjalanan' },
+                { c: '散歩', f: 'さんぽ', m: 'Jalan-jalan santai' }, { c: 'パーティー', f: 'パーティー', m: 'Pesta' }, { c: '仕事', f: 'しごと', m: 'Pekerjaan' }, { c: '宿題', f: 'しゅくだい', m: 'Pekerjaan rumah (PR)' }, { c: '試験', f: 'しけん', m: 'Ujian / Tes' },
+                { c: '問題', f: 'もんだい', m: 'Soal / Masalah' }, { c: '答え', f: 'こたえ', m: 'Jawaban' }, { c: '質問', f: 'しつもん', m: 'Pertanyaan' }, { c: '意味', f: 'いみ', m: 'Arti / Makna' }, { c: '意見', f: 'いけん', m: 'Pendapat' },
+
+                // Level 16
+                { c: '上', f: 'うえ', m: 'Atas' }, { c: '下', f: 'した', m: 'Bawah' }, { c: '中', f: 'なか', m: 'Dalam / Tengah' }, { c: '外', f: 'そと', m: 'Luar' }, { c: '前', f: 'まえ', m: 'Depan' },
+                { c: '後ろ', f: 'うしろ', m: 'Belakang' }, { c: '右', f: 'みぎ', m: 'Kanan' }, { c: '左', f: 'ひだり', m: 'Kiri' }, { c: '隣', f: 'となり', m: 'Sebelah / Disamping' }, { c: '間', f: 'あいだ', m: 'Antara' },
+                { c: '近く', f: 'ちかく', m: 'Sekitar / Dekat' }, { c: '遠く', f: 'とおく', m: 'Jauh' }, { c: '北', f: 'きた', m: 'Utara' }, { c: '南', f: 'みなみ', m: 'Selatan' }, { c: '東', f: 'ひがし', m: 'Timur' },
+                { c: '西', f: 'にし', m: 'Barat' }, { c: '角', f: 'かど', m: 'Tikungan / Sudut' }, { c: '端', f: 'はし', m: 'Ujung' }, { c: '方向', f: 'ほうこう', m: 'Arah' }, { c: '場所', f: 'ばしょ', m: 'Tempat' },
+
+                // Level 17
+                { c: '警察署', f: 'けいさつしょ', m: 'Kantor polisi' }, { c: '銀行', f: 'ぎんこう', m: 'Bank' }, { c: '大使館', f: 'たいしかん', m: 'Kedutaan besar' }, { c: '図書館', f: 'としょかん', m: 'Perpustakaan' }, { c: '美術館', f: 'びじゅつかん', m: 'Museum seni' },
+                { c: '映画館', f: 'えいがかん', m: 'Bioskop' }, { c: '動物園', f: 'どうぶつえん', m: 'Kebun binatang' }, { c: '神社', f: 'じんじゃ', m: 'Kuil Shinto' }, { c: '寺', f: 'てら', m: 'Kuil Buddha' }, { c: '教会', f: 'きょうかい', m: 'Gereja' },
+                { c: '会社', f: 'かいしゃ', m: 'Perusahaan' }, { c: '工場', f: 'こうじょう', m: 'Pabrik' }, { c: '病院', f: 'びょういん', m: 'Rumah sakit' }, { c: 'ホテル', f: 'ホテル', m: 'Hotel' }, { c: '空港', f: 'くうこう', m: 'Bandara' },
+                { c: '港', f: 'みなと', m: 'Pelabuhan' }, { c: '市場', f: 'いちば', m: 'Pasar' }, { c: '商店', f: 'しょうてん', m: 'Toko / Warung' }, { c: '建物', f: 'たてもの', m: 'Gedung' }, { c: '部屋', f: 'へや', m: 'Ruangan' },
+
+                // Level 18
+                { c: '体', f: 'からだ', m: 'Tubuh / Badan' }, { c: '頭', f: 'あたま', m: 'Kepala' }, { c: '顔', f: 'かお', m: 'Wajah' }, { c: '目', f: 'め', m: 'Mata' }, { c: '耳', f: 'みみ', m: 'Telinga' },
+                { c: '鼻', f: 'はな', m: 'Hidung' }, { c: '口', f: 'くち', m: 'Mulut' }, { c: '歯', f: 'は', m: 'Gigi' }, { c: '手', f: 'て', m: 'Tangan' }, { c: '足', f: 'あし', m: 'Kaki' },
+                { c: '指', f: 'ゆび', m: 'Jari' }, { c: '心', f: 'こころ', m: 'Hati / Perasaan' }, { c: '血', f: 'ち', m: 'Darah' }, { c: '骨', f: 'ほね', m: 'Tulang' }, { c: '医者', f: 'いしゃ', m: 'Dokter' },
+                { c: '看護師', f: 'かんごし', m: 'Perawat' }, { c: '病人', f: 'びょうにん', m: 'Orang sakit' }, { c: '薬', f: 'くすり', m: 'Obat' }, { c: '入院', f: 'にゅういん', m: 'Rawat inap' }, { c: '手術', f: 'しゅじゅつ', m: 'Operasi' },
+
+                // Level 19
+                { c: '動物', f: 'どうぶつ', m: 'Hewan / Binatang' }, { c: '犬', f: 'いぬ', m: 'Anjing' }, { c: '猫', f: 'ねこ', m: 'Kucing' }, { c: '鳥', f: 'とり', m: 'Burung' }, { c: '馬', f: 'うま', m: 'Kuda' },
+                { c: '牛', f: 'うし', m: 'Sapi' }, { c: '豚', f: 'ぶた', m: 'Babi' }, { c: '羊', f: 'ひつじ', m: 'Domba' }, { c: '猿', f: 'さる', m: 'Kera / Monyet' }, { c: '魚', f: 'さかな', m: 'Ikan' },
+                { c: '虫', f: 'むし', m: 'Serangga' }, { c: '植物', f: 'しょくぶつ', m: 'Tumbuhan' }, { c: '花', f: 'はな', m: 'Bunga' }, { c: '木', f: 'き', m: 'Pohon' }, { c: '葉', f: 'は', m: 'Daun' },
+                { c: '根', f: 'ね', m: 'Akar' }, { c: '実', f: 'み', m: 'Buah / Biji' }, { c: '森', f: 'もり', m: 'Hutan' }, { c: '林', f: 'はやし', m: 'Hutan kecil / Kebun' }, { c: '畑', f: 'はたけ', m: 'Ladang' },
+
+                // Level 20
+                { c: '鉛筆', f: 'えんぴつ', m: 'Pensil' }, { c: '筆箱', f: 'ふでばこ', m: 'Kotak pensil' }, { c: '消しゴム', f: 'けしゴム', m: 'Penghapus' }, { c: '定規', f: 'じょうぎ', m: 'Penggaris' }, { c: '筆記用具', f: 'ひっきようぐ', m: 'Alat tulis' },
+                { c: 'ノート', f: 'ノート', m: 'Buku catatan' }, { c: '教科書', f: 'きょうかしょ', m: 'Buku pelajaran' }, { c: '黒板', f: 'こくばん', m: 'Papan tulis hitam' }, { c: '教室', f: 'きょうしつ', m: 'Ruang kelas' }, { c: '学校', f: 'がっこう', m: 'Sekolah' },
+                { c: '校長', f: 'こうちょう', m: 'Kepala sekolah' }, { c: '宿題', f: 'しゅくだい', m: 'PR' }, { c: '授業', f: 'じぎょう', m: 'Pelajaran / Jam kelas' }, { c: '試験', f: 'しけん', m: 'Ujian' }, { c: '点数', f: 'てんすう', m: 'Nilai / Skor' },
+                { c: '合格', f: 'ごうかく', m: 'Lulus' }, { c: '入学', f: 'にゅうがく', m: 'Masuk sekolah' }, { c: '卒業', f: 'そつぎょう', m: 'Kelulusan' }, { c: '留学', f: 'りゅうがく', m: 'Belajar di luar negeri' }, { c: '辞書', f: 'じしょ', m: 'Kamus' },
+
+                // Level 21
+                { c: 'お金', f: 'おかね', m: 'Uang' }, { c: '財布', f: 'さいふ', m: 'Dompet' }, { c: '銀行', f: 'ぎんこう', m: 'Bank' }, { c: '切符', f: 'きっぷ', m: 'Tiket' }, { c: '値段', f: 'ねだん', m: 'Harga' },
+                { c: '高い', f: 'たかい', m: 'Mahal' }, { c: '安い', f: 'やすい', m: 'Murah' }, { c: '無料', f: 'むりょう', m: 'Gratis' }, { c: '買い物', f: 'かいもの', m: 'Berbelanja' }, { c: '店員', f: 'てんいん', m: 'Pramuniaga / Pegawai toko' },
+                { c: '客', f: 'きゃく', m: 'Pelanggan / Tamu' }, { c: '市場', f: 'いちば', m: 'Pasar' }, { c: 'デパート', f: 'デパート', m: 'Departemen store' }, { c: 'スーパー', f: 'スーパー', m: 'Supermarket' }, { c: 'コンビニ', f: 'コンビニ', m: 'Minimarket' },
+                { c: '品物', f: 'しなもの', m: 'Barang dagangan' }, { c: '袋', f: 'ふくろ', m: 'Kantong / Tas plastik' }, { c: '領収書', f: 'りょうしゅうしょ', m: 'Kuitansi / Bukti bayar' }, { c: '割引', f: 'わりびき', m: 'Diskon / Potongan harga' }, { c: 'セール', f: 'セール', m: 'Obral / Sale' },
+
+                // Level 22
+                { c: '嬉しい', f: 'うれしい', m: 'Senang / Gembira' }, { c: '悲しい', f: 'かなしい', m: 'Sedih' }, { c: '怒る', f: 'おこる', m: 'Marah' }, { c: '笑う', f: 'わらう', m: 'Tertawa / Tersenyum' }, { c: '泣く', f: 'なく', m: 'Menangis' },
+                { c: '驚く', f: 'おどろく', m: 'Terkejut' }, { c: '安心', f: 'あんしん', m: 'Tenang / Lega' }, { c: '心配', f: 'しんぱい', m: 'Khawatir / Cemas' }, { c: '恥ずかしい', f: 'はずかしい', m: 'Malu' }, { c: '優しい', f: 'やさしい', m: 'Baik hati' },
+                { c: '厳しい', f: 'きびしい', m: 'Tegas / Disiplin' }, { c: '親切', f: 'しんせつ', m: 'Ramah / Baik' }, { c: '真面目', f: 'まじめ', m: 'Rajin / Serius' }, { c: '元気', f: 'げんき', m: 'Sehat / Semangat' }, { c: '立派', f: 'りっぱ', m: 'Megah / Hebat' },
+                { c: '変', f: 'へん', m: 'Aneh' }, { c: '静か', f: 'しずか', m: 'Tenang / Sunyi' }, { c: '賑やか', f: 'にぎやか', m: 'Ramai / Meriah' }, { c: '綺麗', f: 'きれい', m: 'Indah / Bersih' }, { c: '下手', f: 'へた', m: 'Tidak mahir / Buruk' },
+
+                // Level 23
+                { c: '事', f: 'こと', m: 'Hal / Perkara' }, { c: '物', f: 'もの', m: 'Benda / Barang' }, { c: '所', f: 'ところ', m: 'Tempat' }, { c: '時間', f: 'じかん', m: 'Waktu' }, { c: '理由', f: 'りゆう', m: 'Alasan' },
+                { c: '方法', f: 'ほうほう', m: 'Cara / Metode' }, { c: '意見', f: 'いけん', m: 'Pendapat' }, { c: '約束', f: 'やくそく', m: 'Janji' }, { c: '計画', f: 'けいかく', m: 'Rencana' }, { c: '目標', f: 'もくひょう', m: 'Target / Tujuan' },
+                { c: '成功', f: 'せいこう', m: 'Kesuksesan' }, { c: '失敗', f: 'しっぱい', m: 'Kegagalan' }, { c: '準備', f: 'じゅんび', m: 'Persiapan' }, { c: '掃除', f: 'そうじ', m: 'Pembersihan' }, { c: '洗濯', f: 'せんたく', m: 'Pencucian pakaian' },
+                { c: '料理', f: 'りょうり', m: 'Memasak' }, { c: '運転', f: 'うんてん', m: 'Mengemudi' }, { c: '運動', f: 'うんどう', m: 'Berolahraga' }, { c: '散歩', f: 'さんぽ', m: 'Jalan-jalan' }, { c: '旅行', f: 'りょこう', m: 'Bepergian' },
+
+                // Level 24
+                { c: '起きる', f: 'おきる', m: 'Bangun tidur' }, { c: '寝る', f: 'ねる', m: 'Tidur' }, { c: '洗う', f: 'あらう', m: 'Mencuci' }, { c: '磨く', f: 'みがく', m: 'Menggosok / Menyikat' }, { c: '着替える', f: 'きがえる', m: 'Ganti baju' },
+                { c: '浴びる', f: 'あびる', m: 'Mandi (shower)' }, { c: '働く', f: 'はたらく', m: 'Bekerja' }, { c: '休む', f: 'やすむ', m: 'Istirahat' }, { c: '始まる', f: 'はじまる', m: 'Dimulai' }, { c: '終わる', f: 'おわる', m: 'Selesai' },
+                { c: '続ける', f: 'つづける', m: 'Melanjutkan' }, { c: '止まる', f: 'とまる', m: 'Berhenti' }, { c: '動く', f: 'うごく', m: 'Bergerak' }, { c: '変える', f: 'かえる', m: 'Mengubah' }, { c: '変わる', f: 'かわる', m: 'Berubah' },
+                { c: '消す', f: 'けす', m: 'Memadamkan / Menghapus' }, { c: '点ける', f: 'つける', m: 'Menyalakan (lampu/api)' }, { c: '集める', f: 'あつめる', m: 'Mengumpulkan' }, { c: '並べる', f: 'ならべる', m: 'Menata / Berbaris' }, { c: '決める', f: 'きめる', m: 'Memutuskan' },
+
+                // Level 25
+                { c: 'こんにちは', f: 'こんにちは', m: 'Selamat siang' }, { c: 'こんばんは', f: 'こんばんは', m: 'Selamat malam' }, { c: 'おはよう', f: 'おはよう', m: 'Selamat pagi' }, { c: 'さようなら', f: 'さようなら', m: 'Selamat tinggal' }, { c: 'ありがとう', f: 'ありがとう', m: 'Terima kasih' },
+                { c: 'すみません', f: 'すみません', m: 'Permisi / Maaf' }, { c: 'ごめんなさい', f: 'ごめんなさい', m: 'Mohon maaf' }, { c: 'お疲れ様', f: 'おつかれさま', m: 'Terima kasih atas kerja kerasnya' }, { c: 'よろしくお願いします', f: 'よろしくおねがいします', m: 'Mohon bantuannya' }, { c: 'いただきます', f: 'いただきます', m: 'Selamat makan' },
+                { c: 'ごちそうさま', f: 'ごちそうさま', m: 'Terima kasih atas makanannya' }, { c: 'いってきます', f: 'いってきます', m: 'Saya pergi dulu' }, { c: 'いってらっしゃい', f: 'いってらっしゃい', m: 'Hati-hati di jalan' }, { c: 'ただいま', f: 'ただいま', m: 'Aku pulang' }, { c: 'おかえり', f: 'おかえり', m: 'Selamat datang kembali' },
+                { c: 'もしもし', f: 'もしもし', m: 'Halo (telepon)' }, { c: 'どういたしまして', f: 'どういたしまして', m: 'Sama-sama' }, { c: 'お元気ですか', f: 'おげんきですか', m: 'Apa kabar?' }, { c: '失礼します', f: 'しつれいします', m: 'Permisi (masuk/keluar ruangan)' }, { c: '乾杯', f: 'かんぱい', m: 'Bersulang (cheers)' }
+            ];
+
+            let validatedList = [];
+            for (let i = 0; i < rawList.length; i++) {
+                validatedList.push({
+                    id: i + 1,
+                    char: rawList[i].c,
+                    furigana: rawList[i].f,
+                    meaning: rawList[i].m,
+                    level: Math.floor(i / 20) + 1
+                });
+            }
+            return validatedList;
+        }
+
+        const KOTOBA_500 = generate500KotobaDatabase();
+
+        function generate500KotobaN4Database() {
+            const rawN4List = [
+                // Level 1
+                { c: '答える', f: 'こたえる', m: 'Menjawab' }, { c: '倒れる', f: 'たおれる', m: 'Roboh / Jatuh' }, { c: '足りる', f: 'たりる', m: 'Cukup' }, { c: '捕まえる', f: 'つかまえる', m: 'Menangkap' }, { c: '慣れる', f: 'なれる', m: 'Terbiasa' },
+                { c: '逃げる', f: 'にげる', m: 'Kabur / Lari' }, { c: '褒める', f: 'ほめる', m: 'Memuji' }, { c: '驚く', f: 'おどろく', m: 'Terkejut' }, { c: '困る', f: 'こまる', m: 'Kesusahan' }, { c: '咲く', f: 'さく', m: 'Mekar' },
+                { c: '建てる', f: 'たてる', m: 'Membangun' }, { c: '育てる', f: 'そだてる', m: 'Membesarkan / Merawat' }, { c: '通う', f: 'かよう', m: 'Pulang-pergi (sekolah/kantor)' }, { c: '通る', f: 'とおる', m: 'Melewati' }, { c: '笑う', f: 'わらう', m: 'Tertawa' },
+                { c: '怒る', f: 'おこる', m: 'Marah' }, { c: '泣く', f: 'なく', m: 'Menangis' }, { c: '喜ぶ', f: 'よろこぶ', m: 'Bergembira' }, { c: '選ぶ', f: 'えらぶ', m: 'Memilih' }, { c: '運ぶ', f: 'はこぶ', m: 'Membawa / Mengangkut' },
+
+                // Level 2
+                { c: '複雑', f: 'ふくざつ', m: 'Rumit / Kompleks' }, { c: '丁寧', f: 'ていねい', m: 'Sopan / Ramah' }, { c: '特別', f: 'とくべつ', m: 'Khusus / Spesial' }, { c: '熱心', f: 'ねっしん', m: 'Tekun / Antusias' }, { c: '派手', f: 'はで', m: 'Mencolok / Mewah' },
+                { c: '便利', f: 'べんり', m: 'Praktis / Berguna' }, { c: '本当', f: 'ほんとう', m: 'Betul / Sungguh-sungguh' }, { c: '真っ直ぐ', f: 'まっすぐ', m: 'Lurus' }, { c: '無理', f: 'むり', m: 'Mustahil / Dipaksakan' }, { c: '有名', f: 'ゆうめい', m: 'Terkenal' },
+                { c: '安心', f: 'あんしん', m: 'Tenang / Lega' }, { c: '安全', f: 'あんぜん', m: 'Aman' }, { c: '大切', f: 'たいせつ', m: 'Penting / Berharga' }, { c: '必要', f: 'ひつよう', m: 'Perlu / Penting' }, { c: '自由', f: 'じゆう', m: 'Bebas' },
+                { c: '不便', f: 'ふべん', m: 'Tidak praktis' }, { c: '残念', f: 'ざんねん', m: 'Sayang sekali' }, { c: '複雑', f: 'ふくざつ', m: 'Rumit' }, { c: '簡単', f: 'かんたん', m: 'Mudah / Sederhana' }, { c: '親切', f: 'しんせつ', m: 'Ramah' },
+
+                // Level 3
+                { c: '案内', f: 'あんない', m: 'Panduan / Informasi' }, { c: '意見', f: 'いけん', m: 'Pendapat' }, { c: '遠慮', f: 'えんりょ', m: 'Sungkan / Ragu' }, { c: 'お祝い', f: 'おいわい', m: 'Perayaan' }, { c: 'お返し', f: 'おかえし', m: 'Hadiah balasan' },
+                { c: 'お礼', f: 'おれい', m: 'Ucapan terima kasih' }, { c: '計画', f: 'けいかく', m: 'Rencana' }, { c: '経験', f: 'けいけん', m: 'Pengalaman' }, { c: '経済', f: 'けいざい', m: 'Ekonomi' }, { c: '結果', f: 'けっか', m: 'Hasil' },
+                { c: '準備', f: 'じゅんび', m: 'Persiapan' }, { c: '相談', f: 'そうだん', m: 'Konsultasi' }, { c: '注意', f: 'ちゅうい', m: 'Perhatian' }, { c: '都合', f: 'つごう', m: 'Keadaan / Waktu luang' }, { c: '反対', f: 'はんたい', m: 'Penolakan / Kebalikan' },
+                { c: '秘密', f: 'ひみつ', m: 'Rahasia' }, { c: '予約', f: 'よやく', m: 'Reservasi' }, { c: '約束', f: 'やくそく', m: 'Janji' }, { c: '連絡', f: 'れんらく', m: 'Kontak' }, { c: '歴史', f: 'れきし', m: 'Sejarah' },
+
+                // Level 4
+                { c: '科学', f: 'かがく', m: 'Sains / Ilmu' }, { c: '講義', f: 'こうぎ', m: 'Kuliah' }, { c: '研究', f: 'けんきゅう', m: 'Penelitian' }, { c: '合格', f: 'ごうかく', m: 'Lulus ujian' }, { c: '作文', f: 'さくぶん', m: 'Karangan / Esai' },
+                { c: '試験', f: 'しけん', m: 'Ujian' }, { c: '宿題', f: 'しゅくだい', m: 'PR / Tugas' }, { c: '辞書', f: 'じしょ', m: 'Kamus' }, { c: '教科書', f: 'きょうかしょ', m: 'Buku pelajaran' }, { c: '授業', f: 'じぎょう', m: 'Jam pelajaran' },
+                { c: '卒業', f: 'そつぎょう', m: 'Kelulusan' }, { c: '入学', f: 'にゅうがく', m: 'Masuk sekolah' }, { c: '出席', f: 'しゅっせき', m: 'Kehadiran' }, { c: '欠席', f: 'けっせき', m: 'Ketidakhadiran' }, { c: '遅刻', f: 'ちこく', m: 'Terlambat' },
+                { c: '復習', f: 'ふくしゅう', m: 'Ulang pelajaran' }, { c: '予習', f: 'よしゅう', m: 'Belajar persiapan' }, { c: '教育', f: 'きょういく', m: 'Pendidikan' }, { c: '校長', f: 'こうちょう', m: 'Kepala sekolah' }, { c: '学期', f: 'がっき', m: 'Semester' },
+
+                // Level 5
+                { c: '気候', f: 'きこう', m: 'Iklim' }, { c: '空気', f: 'くうき', m: 'Udara' }, { c: '台風', f: 'たいふう', m: 'Badai / Topan' }, { c: '地震', f: 'じしん', m: 'Gempa bumi' }, { c: '火事', f: 'かじ', m: 'Kebakaran' },
+                { c: '雷', f: 'かみなり', m: 'Petir' }, { c: '波', f: 'なみ', m: 'Ombak / Gelombang' }, { c: '星', f: 'ほし', m: 'Bintang' }, { c: '森', f: 'もり', m: 'Hutan' }, { c: '池', f: 'いけ', m: 'Kolam' },
+                { c: '海岸', f: 'かいがん', m: 'Pantai' }, { c: '砂浜', f: 'すなはま', m: 'Pasir pantai' }, { c: '島', f: 'しま', m: 'Pulau' }, { c: '滝', f: 'たき', m: 'Air terjun' }, { c: '草原', f: 'そうげん', m: 'Padang rumput' },
+                { c: '山頂', f: 'さんちょう', m: 'Puncak gunung' }, { c: '温泉', f: 'おんせん', m: 'Pemandian air panas' }, { c: '景色', f: 'けしき', m: 'Pemandangan' }, { c: '夕日', f: 'ゆうひ', m: 'Matahari terbenam' }, { c: '夜景', f: 'やけい', m: 'Pemandangan malam' },
+
+                // Level 6
+                { c: '相手', f: 'あいて', m: 'Lawan bicara / Partner' }, { c: '赤ちゃん', f: 'あかちゃん', m: 'Bayi' }, { c: '作家', f: 'さっか', m: 'Penulis / Pengarang' }, { c: '社長', f: 'しゃちょう', m: 'Direktur utama' }, { c: '選手', f: 'せんしゅ', m: 'Atlet / Pemain' },
+                { c: '店員', f: 'てんいん', m: 'Pramuniaga toko' }, { c: '警察', f: 'けいさつ', m: 'Polisi' }, { c: '歯医者', f: 'はいしゃ', m: 'Dokter gigi' }, { c: '駅員', f: 'えきいん', m: 'Petugas stasiun' }, { c: '運転手', f: 'うんてんしゅ', m: 'Sopir / Pengemudi' },
+                { c: '歌手', f: 'かしゅ', m: 'Penyanyi' }, { c: '作家', f: 'さっか', m: 'Pengarang' }, { c: '画家', f: 'がか', m: 'Pelukis' }, { c: '政治家', f: 'せいじか', m: 'Politikus' }, { c: '学者', f: 'がくしゃ', m: 'Ilmuwan' },
+                { c: '看護師', f: 'かんごし', m: 'Perawat' }, { c: '医者', f: 'いしゃ', m: 'Dokter' }, { c: '弁護士', f: 'べんごし', m: 'Pengacara' }, { c: '客', f: 'きゃく', m: 'Tamu / Pelanggan' }, { c: '主人', f: 'しゅじん', m: 'Suami / Tuan rumah' },
+
+                // Level 7
+                { c: '味', f: 'あじ', m: 'Rasa' }, { c: '塩', f: 'しお', m: 'Garam' }, { c: '砂糖', f: 'さとう', m: 'Gula' }, { c: '醤油', f: 'しょうゆ', m: 'Kecap asin' }, { c: '苦い', f: 'にがい', m: 'Pahit' },
+                { c: '甘い', f: 'あまい', m: 'Manis' }, { c: '辛い', f: 'からい', m: 'Pedas / Asin' }, { c: '酸っぱい', f: 'すっぱい', m: 'Asam' }, { c: '生', f: 'なま', m: 'Mentah / Segar' }, { c: '冷蔵庫', f: 'れいぞうこ', m: 'Kulkas' },
+                { c: '電子レンジ', f: 'でんしレンジ', m: 'Microwave' }, { c: '皿', f: 'さら', m: 'Piring' }, { c: '茶碗', f: 'ちゃわん', m: 'Mangkuk nasi' }, { c: '箸', f: 'はし', m: 'Sumpit' }, { c: 'ナイフ', f: 'ナイフ', m: 'Pisau' },
+                { c: 'フォーク', f: 'フォーク', m: 'Garpu' }, { c: 'スプーン', f: 'スプーン', m: 'Sendok' }, { c: '鍋', f: 'なべ', m: 'Panci' }, { c: 'フライパン', f: 'フライパン', m: 'Wajan' }, { c: '包丁', f: 'ほうちょう', m: 'Pisau dapur' },
+
+                // Level 8
+                { c: '案内状', f: 'あんないじょう', m: 'Surat undangan' }, { c: '封筒', f: 'ふうとう', m: 'Amplop' }, { c: '切手', f: 'きって', m: 'Prangko' }, { c: '荷物', f: 'にもつ', m: 'Barang / Bagasi' }, { c: '小包', f: 'こづつみ', m: 'Paket' },
+                { c: '国際', f: 'こくさい', m: 'Internasional' }, { c: '海外', f: 'かいがい', m: 'Luar negeri' }, { c: '留学', f: 'りゅうがく', m: 'Studi di luar negeri' }, { c: '通訳', f: 'つうやく', m: 'Penerjemah lisan' }, { c: '翻訳', f: 'ほんやく', m: 'Terjemahan tertulis' },
+                { c: '大使館', f: 'たいしかん', m: 'Kedutaan besar' }, { c: '美術館', f: 'びじゅつかん', m: 'Museum seni' }, { c: '映画館', f: 'えいがかん', m: 'Bioskop' }, { c: '動物園', f: 'どうぶつえん', m: 'Kebun binatang' }, { c: '神社', f: 'じんじゃ', m: 'Kuil Shinto' },
+                { c: '寺', f: 'てら', m: 'Kuil Buddha' }, { c: '教会', f: 'きょうかい', m: 'Gereja' }, { c: '空港', f: 'くうこう', m: 'Bandara' }, { c: '港', f: 'みなと', m: 'Pelabuhan' }, { c: '市場', f: 'いちば', m: 'Pasar' },
+
+                // Level 9
+                { c: '足す', f: 'たす', m: 'Menambahkan' }, { c: '引く', f: 'ひく', m: 'Mengurangi / Menarik' }, { c: '増える', f: 'ふえる', m: 'Bertambah' }, { c: '減る', f: 'へる', m: 'Berkurang' }, { c: '変わる', f: 'かわる', m: 'Berubah' },
+                { c: '直す', f: 'なおす', m: 'Memperbaiki' }, { c: '壊す', f: 'こわす', m: 'Merusak' }, { c: '汚す', f: 'よごす', m: 'Mengotori' }, { c: '落とす', f: 'おとす', m: 'Menjatuhkan' }, { c: '拾う', f: 'ひらう', m: 'Memungut' },
+                { c: '動く', f: 'うごく', m: 'Bergerak' }, { c: '止まる', f: 'とまる', m: 'Berhenti' }, { c: '始まる', f: 'はじまる', m: 'Dimulai' }, { c: '終わる', f: 'おわる', m: 'Selesai' }, { c: '続ける', f: 'つづける', m: 'Melanjutkan' },
+                { c: '消す', f: 'けす', m: 'Memadamkan' }, { c: '点ける', f: 'つける', m: 'Menyalakan' }, { c: '集める', f: 'あつめる', m: 'Mengumpulkan' }, { c: '並べる', f: 'ならべる', m: 'Menata' }, { c: '決める', f: 'きめる', m: 'Memutuskan' },
+
+                // Level 10
+                { c: '出席', f: 'しゅっせき', m: 'Kehadiran' }, { c: '欠席', f: 'けっせき', m: 'Ketidakhadiran' }, { c: '遅刻', f: 'ちこく', m: 'Terlambat' }, { c: '予約', f: 'よやく', m: 'Reservasi' }, { c: '約束', f: 'やくそく', m: 'Janji' },
+                { c: '相談', f: 'そうだん', m: 'Konsultasi / Berdiskusi' }, { c: '注意', f: 'ちゅうい', m: 'Perhatian / Peringatan' }, { c: '遠慮', f: 'えんりょ', m: 'Segan / Sungkan' }, { c: '返事', f: 'へんじ', m: 'Jawaban / Balasan' }, { c: '連絡', f: 'れんらく', m: 'Kontak / Menghubungi' },
+                { c: '報告', f: 'ほうこく', m: 'Laporan' }, { c: '連絡', f: 'れんらく', m: 'Hubungan' }, { c: '確認', f: 'かくにん', m: 'Konfirmasi' }, { c: '発表', f: 'はっぴょう', m: 'Pengumuman / Presentasi' }, { c: '説明', f: 'せつめい', m: 'Penjelasan' },
+                { c: '案内', f: 'あんない', m: 'Panduan' }, { c: '紹介', f: 'しょうかい', m: 'Perkenalan' }, { c: '招待', f: 'しょうたい', m: 'Undangan' }, { c: '挨拶', f: 'あいさつ', m: 'Salam' }, { c: '返還', f: 'へんかん', m: 'Pengembalian' },
+
+                // Level 11
+                { c: '歴史', f: 'れきし', m: 'Sejarah' }, { c: '社会', f: 'しゃかい', m: 'Masyarakat / Sosial' }, { c: '文化', f: 'ぶんか', m: 'Budaya' }, { c: '政治', f: 'せいじ', m: 'Politik' }, { c: '法律', f: 'ほうりつ', m: 'Hukum' },
+                { c: '世界', f: 'せかい', m: 'Dunia' }, { c: '平和', f: 'へいわ', m: 'Perdamaian' }, { c: '戦争', f: 'せんそう', m: 'Perang' }, { c: '都会', f: 'とかい', m: 'Kota besar' }, { c: '田舎', f: 'いなか', m: 'Pedesaan' },
+                { c: '国民', f: 'こくみん', m: 'Warga negara' }, { c: '市民', f: 'しみん', m: 'Warga kota' }, { c: '住民', f: 'じゅうみん', m: 'Penduduk' }, { c: '警察', f: 'けいさつ', m: 'Kepolisian' }, { c: '軍隊', f: 'ぐんたい', m: 'Militer / Tentara' },
+                { c: '政府', f: 'せいふ', m: 'Pemerintah' }, { c: '経済', f: 'けいざい', m: 'Ekonomi' }, { c: '貿易', f: 'ぼうえき', m: 'Perdagangan luar negeri' }, { c: '産業', f: 'さんぎょう', m: 'Industri' }, { c: '農業', f: 'のうぎょう', m: 'Pertanian' },
+
+                // Level 12
+                { c: '複雑', f: 'ふくざつ', m: 'Rumit' }, { c: '特別', f: 'とくべつ', m: 'Spesial' }, { c: '普通', f: 'ふつう', m: 'Biasa / Umum' }, { c: '当然', f: 'とうぜん', m: 'Tentu saja' }, { c: '必要', f: 'ひつよう', m: 'Perlu / Penting' },
+                { c: '可能', f: 'かのう', m: 'Memungkinkan' }, { c: '不可能', f: 'ふかのう', m: 'Tidak mungkin' }, { c: '自由', f: 'じゆう', m: 'Bebas' }, { c: '安全', f: 'あんぜん', m: 'Aman' }, { c: '危険', f: 'きけん', m: 'Bahaya' },
+                { c: '重要', f: 'じゅうよう', m: 'Penting' }, { c: '必要', f: 'ひつよう', m: 'Dibutuhkan' }, { c: '有効', f: 'ゆうこう', m: 'Berlaku / Efektif' }, { c: '無効', f: 'むこう', m: 'Tidak berlaku' }, { c: '有利', f: 'ゆうり', m: 'Menguntungkan' },
+                { c: '不利', f: 'ふり', m: 'Merugikan' }, { c: '正直', f: 'しょうじき', m: 'Jujur' }, { c: '誠実', f: 'せいじつ', m: 'Tulus' }, { c: '適当', f: 'てきとう', m: 'Cocok / Asal-asalan' }, { c: '普通', f: 'ふつう', m: 'Normal' },
+
+                // Level 13
+                { c: '挨拶', f: 'あいさつ', m: 'Salam' }, { c: 'お祝い', f: 'おいわい', m: 'Ucapan selamat' }, { c: 'お詫び', f: 'おわび', m: 'Permohonan maaf' }, { c: '感謝', f: 'かんしゃ', m: 'Rasa syukur' }, { c: '感動', f: 'かんどう', m: 'Terharu' },
+                { c: '感激', f: 'かんげき', m: 'Sangat terkesan' }, { c: '緊張', f: 'きんちょう', m: 'Gugup / Tegang' }, { c: '心配', f: 'しんぱい', m: 'Khawatir' }, { c: '満足', f: 'まんぞく', m: 'Puas' }, { c: '不満', f: 'ふまん', m: 'Tidak puas' },
+                { c: '安心', f: 'あんしん', m: 'Lega' }, { c: '後悔', f: 'こうかい', m: 'Penyesalan' }, { c: '満足', f: 'まんぞく', m: 'Kepuasan' }, { c: '失望', f: 'しつぼう', m: 'Kekecewaan' }, { c: '希望', f: 'きぼう', m: 'Harapan' },
+                { c: '絶望', f: 'ぜつぼう', m: 'Putus asa' }, { c: '勇気', f: 'ゆうき', m: 'Keberanian' }, { c: '誇り', f: 'ほこり', m: 'Kebanggaan' }, { c: '恥', f: 'はち', m: 'Rasa malu' }, { c: '怒り', f: 'いかり', m: 'Kemarahan' },
+
+                // Level 14
+                { c: '道具', f: 'どうぐ', m: 'Alat / Perkakas' }, { c: '家具', f: 'かぐ', m: 'Perabotan rumah' }, { c: '家電', f: 'かでん', m: 'Peralatan elektronik' }, { c: '機械', f: 'きかい', m: 'Mesin' }, { c: '部品', f: 'ぶひん', m: 'Suku cadang' },
+                { c: '材料', f: 'ざいりょう', m: 'Bahan-bahan' }, { c: '原料', f: 'げんりょう', m: 'Bahan baku' }, { c: '製品', f: 'せいひん', m: 'Produk jadi' }, { c: '商品', f: 'しょうひん', m: 'Barang dagangan' }, { c: '価格', f: 'かかく', m: 'Harga' },
+                { c: '品物', f: 'しなもの', m: 'Barang' }, { c: '製品', f: 'せいひん', m: 'Hasil produksi' }, { c: '小包', f: 'こづつみ', m: 'Paket' }, { c: '封筒', f: 'ふうとう', m: 'Amplop' }, { c: '切手', f: 'きって', m: 'Prangko' },
+                { c: '葉書', f: 'はがき', m: 'Kartu pos' }, { c: '切符', f: 'きっぷ', m: 'Tiket' }, { c: '定期券', f: 'ていきけん', m: 'Tiket langganan' }, { c: '領収書', f: 'りょうしゅうしょ', m: 'Kuitansi' }, { c: '財布', f: 'さいふ', m: 'Dompet' },
+
+                // Level 15
+                { c: '足音', f: 'あしおと', m: 'Suara langkah kaki' }, { c: '足元', f: 'あしもと', m: 'Pijakan kaki' }, { c: '手袋', f: 'てぶくろ', m: 'Sarung tangan' }, { c: '毛布', f: 'もうふ', m: 'Selimut' }, { c: '枕', f: 'まくら', m: 'Bantal' },
+                { c: '鏡', f: 'かがみ', m: 'Cermin' }, { c: '櫛', f: 'くし', m: 'Sisir' }, { c: '石鹸', f: 'せっけん', m: 'Sabun' }, { c: '歯磨き', f: 'はみがき', m: 'Pasta gigi' }, { c: 'タオル', f: 'タオル', m: 'Handuk' },
+                { c: '歯ブラシ', f: 'はブラシ', m: 'Sikat gigi' }, { c: '爪切り', f: 'つめきり', m: 'Gunting kuku' }, { c: '髭剃り', f: 'ひげそり', m: 'Alat cukur jenggot' }, { c: '化粧品', f: 'けしょうひん', m: 'Kosmetik' }, { c: '香水', f: 'こうすい', m: 'Parfum' },
+                { c: '帽子', f: 'ぼうし', m: 'Topi' }, { c: '眼鏡', f: 'めがね', m: 'Kacamata' }, { c: '手袋', f: 'てぶくろ', m: 'Sarung tangan' }, { c: '靴下', f: 'くつした', m: 'Kaos kaki' }, { c: '下着', f: 'したぎ', m: 'Pakaian dalam' },
+
+                // Level 16
+                { c: '港', f: 'みなと', m: 'Pelabuhan' }, { c: '海岸', f: 'かいがん', m: 'Pantai' }, { c: '砂浜', f: 'すなはま', m: 'Pasir pantai' }, { c: '島', f: 'しま', m: 'Pulau' }, { c: '岬', f: 'みさき', m: 'Tanjung' },
+                { c: '崖', f: 'がけ', m: 'Tebing' }, { c: '滝', f: 'たき', m: 'Air terjun' }, { c: '渓谷', f: 'けいこく', m: 'Jurang / Lembah' }, { c: '草原', f: 'そうげん', m: 'Padang rumput' }, { c: '山頂', f: 'さんちょう', m: 'Puncak gunung' },
+                { c: '平原', f: 'へいげん', m: 'Dataran rendah' }, { c: '盆地', f: 'ぼんち', m: 'Cekungan / Lembah' }, { c: '火山', f: 'かざん', m: 'Gunung berapi' }, { c: '洞窟', f: 'どうくつ', m: 'Gua' }, { c: '沼', f: 'ぬま', m: 'Rawa' },
+                { c: '湖', f: 'みずうみ', m: 'Danau' }, { c: '海峡', f: 'かいきょう', m: 'Selat' }, { c: '半島', f: 'はんとう', m: 'Semenanjung' }, { c: '大陸', f: 'たいりく', m: 'Benua' }, { c: '地球', f: 'ちきゅう', m: 'Bumi' },
+
+                // Level 17
+                { c: '遠足', f: 'えんそく', m: 'Karya wisata' }, { c: '観光', f: 'かんこう', m: 'Pariwisata' }, { c: '案内人', f: 'あんないにん', m: 'Pemandu wisata' }, { c: '旅館', f: 'りょかん', m: 'Penginapan tradisonal' }, { c: '温泉', f: 'おんせん', m: 'Pemandian air panas' },
+                { c: '景色', f: 'けしき', m: 'Pemandangan' }, { c: '夕日', f: 'ゆうひ', m: 'Matahari terbenam' }, { c: '夜景', f: 'やけい', m: 'Pemandangan malam' }, { c: '土産', f: 'みやげ', m: 'Oleh-oleh' }, { c: '記念', f: 'きねん', m: 'Peringatan / Kenang-kenangan' },
+                { c: '旅行社', f: 'りょこうしゃ', m: 'Agen travel' }, { c: '切符', f: 'きっぷ', m: 'Tiket' }, { c: '時刻表', f: 'じこくひょう', m: 'Jadwal' }, { c: '乗車券', f: 'じょうしゃけん', m: 'Tiket naik' }, { c: '片道', f: 'かたみち', m: 'Sekali jalan' },
+                { c: '往復', f: 'おうふく', m: 'Pulang pergi' }, { c: '特急', f: 'とっきゅう', m: 'Kereta ekspres' }, { c: '新幹線', f: 'しんかんせん', m: 'Kereta Shinkansen' }, { c: '指定席', f: 'していせき', m: 'Kursi reservasi' }, { c: '自由席', f: 'じゆうせき', m: 'Kursi bebas' },
+
+                // Level 18
+                { c: '進む', f: 'すすむ', m: 'Maju / Berkembang' }, { c: '戻る', f: 'もどる', m: 'Kembali' }, { c: '通る', f: 'とおる', m: 'Melewati' }, { c: '過ぎる', f: 'すぎる', m: 'Terlewati / Lewat' }, { c: '超える', f: 'こえる', m: 'Melampaui' },
+                { c: '曲がる', f: 'まがる', m: 'Berbelok' }, { c: '曲げる', f: 'まげる', m: 'Membengkokkan' }, { c: '分かれる', f: 'わかれる', m: 'Berpisah / Bercabang' }, { c: '交わる', f: 'まじわる', m: 'Berpotongan / Bergaul' }, { c: '結ぶ', f: 'むすぶ', m: 'Mengikat / Menghubungkan' },
+                { c: '離れる', f: 'はなれる', m: 'Menjauh / Terpisah' }, { c: '近づく', f: 'ちかづく', m: 'Mendekat' }, { c: '囲む', f: 'かこむ', m: 'Mengelilingi' }, { c: '通じる', f: 'つうじる', m: 'Terhubung / Dimengerti' }, { c: '流れる', f: 'ながれる', m: 'Mengalir' },
+                { c: '浮かぶ', f: 'うかぶ', m: 'Mengapung' }, { c: '沈む', f: 'しずむ', m: 'Tenggelam' }, { c: '倒す', f: 'たおす', m: 'Menumbangkan' }, { c: '起こす', f: 'おこす', m: 'Membangunkan / Menyebabkan' }, { c: '建つ', f: 'たつ', m: 'Berdiri (bangunan)' },
+
+                // Level 19
+                { c: '理由', f: 'りゆう', m: 'Alasan' }, { c: '原因', f: 'げんいん', m: 'Penyebab' }, { c: '結果', f: 'けっか', m: 'Akibat / Hasil' }, { c: '目的', f: 'もくてき', m: 'Tujuan' }, { c: '目標', f: 'もくひょう', m: 'Target' },
+                { c: '方針', f: 'ほうしん', m: 'Prinsip / Kebijakan' }, { c: '計画', f: 'けいかく', m: 'Rencana' }, { c: '準備', f: 'じゅんび', m: 'Persiapan' }, { c: '成功', f: 'せいこう', m: 'Keberhasilan' }, { c: '失敗', f: 'しっぱい', m: 'Kegagalan' },
+                { c: '成果', f: 'せいか', m: 'Hasil kerja' }, { c: '効果', f: 'こうか', m: 'Efek / Khasiat' }, { c: '影響', f: 'えいきょう', m: 'Pengaruh' }, { c: '関係', f: 'かんけい', m: 'Hubungan' }, { c: '状況', f: 'じょうきょう', m: 'Situasi' },
+                { c: '状態', f: 'じょうたい', m: 'Kondisi' }, { c: '場合', f: 'ばあい', m: 'Kasus / Keadaan' }, { c: '機会', f: 'きかい', m: 'Kesempatan' }, { c: '都合', f: 'つごう', m: 'Situasi waktu' }, { c: '様子', f: 'ようす', m: 'Keadaan / Rupa' },
+
+                // Level 20
+                { c: '感想', f: 'かんそう', m: 'Kesan' }, { c: '感想文', f: 'かんそうぶん', m: 'Esai kesan' }, { c: '意見', f: 'いけん', m: 'Pendapat' }, { c: '主張', f: 'しゅちょう', m: 'Klaim / Pendirian' }, { c: '納得', f: 'なっとく', m: 'Paham / Mengerti' },
+                { c: '誤解', f: 'ごかい', m: 'Kesalahpahaman' }, { c: '理解', f: 'りかい', m: 'Pemahaman' }, { c: '記憶', f: 'きおく', m: 'Ingatan' }, { c: '忘却', f: 'ぼうきゃく', m: 'Kelupaan' }, { c: '知識', f: 'ちしき', m: 'Pengetahuan' },
+                { c: '学問', f: 'がくもん', m: 'Ilmu pengetahuan' }, { c: '技術', f: 'ぎじゅつ', m: 'Teknologi / Keahlian' }, { c: '情報', f: 'じょうほう', m: 'Informasi' }, { c: '通信', f: 'つうしん', m: 'Komunikasi' }, { c: '放送', f: 'ほうそう', m: 'Penyiaran' },
+                { c: '新聞', f: 'しんぶん', m: 'Koran' }, { c: '雑誌', f: 'ざっし', m: 'Majalah' }, { c: '広告', f: 'こうこく', m: 'Iklan' }, { c: '記事', f: 'きじ', m: 'Artikel' }, { c: '小説', f: 'しょうせつ', m: 'Novel' },
+
+                // Level 21
+                { c: '怪我', f: 'けが', m: 'Luka' }, { c: '傷', f: 'きず', m: 'Luka / Goresan' }, { c: '火傷', f: 'やけど', m: 'Luka bakar' }, { c: '骨折', f: 'こっせつ', m: 'Patah tulang' }, { c: '風邪', f: 'かぜ', m: 'Masuk angin' },
+                { c: '熱', f: 'ねつ', m: 'Demam' }, { c: '咳', f: 'せき', m: 'Batuk' }, { c: '頭痛', f: 'ずつう', m: 'Sakit kepala' }, { c: '腹痛', f: 'ふくつう', m: 'Sakit perut' }, { c: '診察', f: 'しんさつ', m: 'Pemeriksaan medis' },
+                { c: '治療', f: 'ちりょう', m: 'Pengobatan' }, { c: '手術', f: 'しゅじゅつ', m: 'Operasi' }, { c: '入院', f: 'にゅういん', m: 'Rawat inap' }, { c: '退院', f: 'たいいん', m: 'Keluar rumah sakit' }, { c: '薬', f: 'くすり', m: 'Obat' },
+                { c: '注射', f: 'ちゅうしゃ', m: 'Suntikan' }, { c: '包帯', f: 'ほうたい', m: 'Perban' }, { c: '健康', f: 'けんこう', m: 'Kesehatan' }, { c: '症状', f: 'しょうじょう', m: 'Gejala penyakit' }, { c: '伝染', f: 'でんせん', m: 'Penularan' },
+
+                // Level 22
+                { c: '褒める', f: 'ほめる', m: 'Memuji' }, { c: '叱る', f: 'しかる', m: 'Memarahi' }, { c: '怒る', f: 'おこる', m: 'Marah' }, { c: '笑う', f: 'わらう', m: 'Tertawa' }, { c: '泣く', f: 'なく', m: 'Menangis' },
+                { c: '騒ぐ', f: 'さわぐ', m: 'Membuat ribut' }, { c: '喜ぶ', f: 'よろこぶ', m: 'Bergembira' }, { c: '悲しむ', f: 'かなしむ', m: 'Menyedihkan' }, { c: '苦しむ', f: 'くるしむ', m: 'Menderita' }, { c: '楽しむ', f: 'たのしむ', m: 'Menikmati' },
+                { c: '驚く', f: 'おどろく', m: 'Terkejut' }, { c: '安心', f: 'あんしん', m: 'Lega' }, { c: '心配', f: 'しんぱい', m: 'Khawatir' }, { c: '恥ずかしい', f: 'はずかしい', m: 'Malu' }, { c: '羨ましい', f: 'うらやましい', m: 'Iri / Cemburu' },
+                { c: '懐かしい', f: 'なつかしい', m: 'Rindu' }, { c: '惜しい', f: 'おしい', m: 'Sayang sekali / Nyaris' }, { c: '悔しい', f: 'くやしい', m: 'Kesal / Menyesal' }, { c: '寂しい', f: 'さびしい', m: 'Kesepian' }, { c: '恋しい', f: 'こいしい', m: 'Merindukan' },
+
+                // Level 23
+                { c: '整理', f: 'せいり', m: 'Merapikan / Sortir' }, { c: '片付け', f: 'かたづけ', m: 'Membereskan' }, { c: '掃除', f: 'そうじ', m: 'Membersihkan' }, { c: '洗濯', f: 'せんたく', m: 'Mencuci pakaian' }, { c: '調理', f: 'ちょうり', m: 'Mengolah makanan' },
+                { c: '裁縫', f: 'さいほう', m: 'Menjahit' }, { c: '育児', f: 'いくじ', m: 'Mengasuh anak' }, { c: '介護', f: 'かいご', m: 'Merawat lansia' }, { c: '看護', f: 'かんご', m: 'Merawat orang sakit' }, { c: '労働', f: 'ろうどう', m: 'Buruh / Pekerjaan' },
+                { c: '管理', f: 'かんり', m: 'Pengelolaan / Manajemen' }, { c: '監督', f: 'かんとく', m: 'Pengawasan / Pelatih' }, { c: '指導', f: 'しどう', m: 'Bimbingan' }, { c: '訓練', f: 'くんれん', m: 'Pelatihan' }, { c: '練習', f: 'れんしゅう', m: 'Latihan' },
+                { c: '実験', f: 'じっけん', m: 'Eksperimen' }, { c: '検査', f: 'けんさ', m: 'Inspeksi / Tes' }, { c: '調査', f: 'ちょうさ', m: 'Survei / Investigasi' }, { c: '確認', f: 'かくにん', m: 'Konfirmasi' }, { c: '測定', f: 'そくてい', m: 'Pengukuran' },
+
+                // Level 24
+                { c: '特別', f: 'とくべつ', m: 'Khusus' }, { c: '普通', f: 'ふつう', m: 'Biasa' }, { c: '一般的', f: 'いぱんてき', m: 'Umum' }, { c: '特別的', f: 'とくべつてき', m: 'Sifat khusus' }, { c: '独自', f: 'どくじ', m: 'Orisinal / Sendiri' },
+                { c: '自由', f: 'じゆう', m: 'Bebas' }, { c: '不自由', f: 'ふじゆう', m: 'Terbatas / Kurang bebas' }, { c: '平等', f: 'びょうどう', m: 'Setara / Kesetaraan' }, { c: '公平', f: 'こうへい', m: 'Adil' }, { c: '特別', f: 'とくべつ', m: 'Spesial' },
+                { c: '個別', f: 'こべつ', m: 'Individual / Perorangan' }, { c: '全体', f: 'ぜんたい', m: 'Keseluruhan' }, { c: '部分', f: 'ぶぶん', m: 'Bagian' }, { c: '中央', f: 'ちゅうおう', m: 'Pusat / Tengah' }, { c: '端', f: 'はし', m: 'Ujung / Pinggir' },
+                { c: '周囲', f: 'しゅうい', m: 'Sekeliling' }, { c: '内部', f: 'ないぶ', m: 'Bagian dalam' }, { c: '外部', f: 'がいぶ', m: 'Bagian luar' }, { c: '表面', f: 'ひょうめん', m: 'Permukaan' }, { c: '裏', f: 'うら', m: 'Bagian belakang / Sisi sebaliknya' },
+
+                // Level 25
+                { c: '成功', f: 'せいこう', m: 'Sukses' }, { c: '達成', f: 'たっせい', m: 'Pencapaian' }, { c: '完成', f: 'かんせい', m: 'Penyelesaian' }, { c: '完了', f: 'かんりょう', m: 'Selesai total' }, { c: '終了', f: 'しゅうりょう', m: 'Berakhir' },
+                { c: '中止', f: 'ちゅうし', m: 'Penghentian / Batal' }, { c: '延期', f: 'えんき', m: 'Penundaan' }, { c: '再開', f: 'さいかい', m: 'Mulai kembali' }, { c: '継続', f: 'けいぞく', m: 'Kelanjutan' }, { c: '挑戦', f: 'ちょうせん', m: 'Tantangan' },
+                { c: '勝利', f: 'しょうり', m: 'Kemenangan' }, { c: '敗北', f: 'はいぼく', m: 'Kekalahan' }, { c: '優勝', f: 'ゆうしょう', m: 'Juara pertama' }, { c: '参加', f: 'さんか', m: 'Partisipasi' }, { c: '応援', f: 'おうえん', m: 'Dukungan / Sorak' },
+                { c: '努力', f: 'どりょく', m: 'Usaha / Kerja keras' }, { c: '諦め', f: 'あきらめ', m: 'Keresahan / Menyerah' }, { c: '希望', f: 'きぼう', m: 'Harapan' }, { c: '目標', f: 'もくひょう', m: 'Sasaran' }, { c: '満足', f: 'まんぞく', m: 'Kepuasan' }
+            ];
+
+            let validatedN4List = [];
+            for (let i = 0; i < rawN4List.length; i++) {
+                validatedN4List.push({
+                    id: i + 1,
+                    char: rawN4List[i].c,
+                    furigana: rawN4List[i].f,
+                    meaning: rawN4List[i].m,
+                    level: Math.floor(i / 20) + 1
+                });
+            }
+            return validatedN4List;
+        }
+
+        const KOTOBA_N4 = generate500KotobaN4Database();
+
+        class KanaQuizApp {
+            constructor() {
+                this.config = {
+                    kanaType: 'hiragana',
+                    category: 'gojuuon',
+                    quizMode: 'multiple',
+                    selectedKotobaLevel: 1,
+                    selectedKotobaN4Level: 1
+                };
+                this.state = {
+                    playerName: '',
+                    questions: [],
+                    currentIndex: 0,
+                    score: 0,
+                    streak: 0,
+                    correctCount: 0,
+                    answersLog: [],
+                    timerInterval: null,
+                    timeLeft: 15,
+                    isAnswerLocked: false,
+                    totalQuizDone: 0,
+                    cumulativeScore: 0,
+                    darkMode: false,
+                    lastQuizType: 'kana'
+                };
+                this.initTheme();
+                this.loadUserData();
+                this.fetchGlobalLeaderboard();
+            }
+
+            initTheme() {
+                const savedTheme = localStorage.getItem('yosh_dark_mode');
+                if (savedTheme === 'true') {
+                    this.state.darkMode = true;
+                    document.documentElement.classList.add('dark');
+                    document.getElementById('theme-icon').className = 'fa-solid fa-sun';
+                } else {
+                    this.state.darkMode = false;
+                    document.documentElement.classList.remove('dark');
+                    document.getElementById('theme-icon').className = 'fa-solid fa-moon';
+                }
+            }
+
+            toggleDarkMode() {
+                this.state.darkMode = !this.state.darkMode;
+                localStorage.setItem('yosh_dark_mode', this.state.darkMode);
+                if (this.state.darkMode) {
+                    document.documentElement.classList.add('dark');
+                    document.getElementById('theme-icon').className = 'fa-solid fa-sun';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.getElementById('theme-icon').className = 'fa-solid fa-moon';
+                }
+            }
+
+            loadUserData() {
+                const savedName = localStorage.getItem('yosh_player_name');
+                const savedDone = localStorage.getItem('yosh_total_quiz');
+                const savedCumulative = localStorage.getItem('yosh_cumulative_score');
+                
+                if (savedName) {
+                    this.state.playerName = savedName;
+                    const inputEl = document.getElementById('player-name-input');
+                    if (inputEl) inputEl.value = savedName;
+                }
+                if (savedDone) this.state.totalQuizDone = parseInt(savedDone);
+                if (savedCumulative) this.state.cumulativeScore = parseInt(savedCumulative);
+                this.updateHomeStats();
+            }
+
+            updatePlayerName(name) {
+                this.state.playerName = name.trim();
+                localStorage.setItem('yosh_player_name', this.state.playerName);
+            }
+
+            updateHomeStats() {
+                document.getElementById('home-total-quiz').innerText = this.state.totalQuizDone;
+                document.getElementById('home-best-score').innerText = `${this.state.cumulativeScore} Pt`;
+            }
+
+            syncScoreOnline(playerName, sessionScore) {
+                if (!playerName || sessionScore <= 0) return;
+                const sanitizedName = playerName.replace(/[.#$\/\[\]]/g, "_");
+                const playerRef = db.ref('leaderboard/' + sanitizedName);
+
+                playerRef.transaction((currentData) => {
+                    if (currentData === null) {
+                        return {
+                            name: playerName,
+                            score: sessionScore,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP
+                        };
+                    } else {
+                        return {
+                            name: playerName,
+                            score: (currentData.score || 0) + sessionScore,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP
+                        };
+                    }
+                }, (error, committed) => {
+                    if (!error && committed) {
+                        this.fetchGlobalLeaderboard();
+                    }
+                });
+            }
+
+            fetchGlobalLeaderboard() {
+                const container = document.getElementById('global-leaderboard-list');
+                if (!container) return;
+
+                db.ref('leaderboard').orderByChild('score').limitToLast(10).once('value', (snapshot) => {
+                    container.innerHTML = '';
+                    let dataList = [];
+                    snapshot.forEach((childSnapshot) => {
+                        dataList.push(childSnapshot.val());
+                    });
+                    dataList.reverse();
+
+                    if (dataList.length === 0) {
+                        container.innerHTML = '<p class="text-xs text-stone-400 text-center py-2">Belum ada data online.</p>';
+                        return;
+                    }
+
+                    dataList.forEach((item, index) => {
+                        const rank = index + 1;
+                        let badgeColor = 'bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300';
+                        if (rank === 1) badgeColor = 'bg-amber-100 text-amber-700 font-bold';
+                        else if (rank === 2) badgeColor = 'bg-slate-200 text-slate-700 font-bold';
+                        else if (rank === 3) badgeColor = 'bg-orange-100 text-orange-700 font-bold';
+
+                        const row = document.createElement('div');
+                        row.className = 'flex items-center justify-between p-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-100 dark:border-stone-700';
+                        row.innerHTML = `
+                            <div class="flex items-center space-x-2.5 truncate">
+                                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${badgeColor}">#${rank}</span>
+                                <span class="font-bold text-stone-800 dark:text-stone-100 truncate">${item.name}</span>
+                            </div>
+                            <span class="font-bold text-accent-600 dark:text-accent-400">${item.score} Pt</span>
+                        `;
+                        container.appendChild(row);
+                    });
+                }, (error) => {
+                    container.innerHTML = '<p class="text-xs text-rose-400 text-center py-2">Gagal memuat leaderboard.</p>';
+                });
+            }
+
+            validatePlayerNameBeforeAction() {
+                const nameInput = document.getElementById('player-name-input').value.trim();
+                const errorMsg = document.getElementById('name-error-msg');
+                const nameFieldInput = document.getElementById('player-name-input');
+
+                if (!nameInput && !this.state.playerName) {
+                    errorMsg.classList.remove('hidden');
+                    nameFieldInput.classList.add('border-rose-500', 'animate-shake');
+                    setTimeout(() => {
+                        nameFieldInput.classList.remove('animate-shake');
+                    }, 400);
+                    return false;
+                }
+
+                errorMsg.classList.add('hidden');
+                nameFieldInput.classList.remove('border-rose-500');
+
+                if (nameInput) {
+                    this.state.playerName = nameInput;
+                    localStorage.setItem('yosh_player_name', this.state.playerName);
+                }
+                return true;
+            }
+
+            goToConfig() {
+                if (!this.validatePlayerNameBeforeAction()) return;
+                document.getElementById('view-home').classList.add('hidden');
+                document.getElementById('view-config').classList.remove('hidden');
+            }
+
+            goToKotobaConfig() {
+                if (!this.validatePlayerNameBeforeAction()) return;
+                document.getElementById('view-home').classList.add('hidden');
+                document.getElementById('view-kotoba-config').classList.remove('hidden');
+                this.renderKotobaLevelGrid();
+            }
+
+            goToKotobaN4Config() {
+                if (!this.validatePlayerNameBeforeAction()) return;
+                document.getElementById('view-home').classList.add('hidden');
+                document.getElementById('view-kotoban4-config').classList.remove('hidden');
+                this.renderKotobaN4LevelGrid();
+            }
+
+            isLevelCompleted(lvl) {
+                const completedLevels = JSON.parse(localStorage.getItem('yosh_completed_kotoba_levels') || '{}');
+                return !!completedLevels[lvl];
+            }
+
+            markLevelCompleted(lvl) {
+                let completedLevels = JSON.parse(localStorage.getItem('yosh_completed_kotoba_levels') || '{}');
+                completedLevels[lvl] = true;
+                localStorage.setItem('yosh_completed_kotoba_levels', JSON.stringify(completedLevels));
+            }
+
+            isN4LevelCompleted(lvl) {
+                const completedLevels = JSON.parse(localStorage.getItem('yosh_completed_kotoban4_levels') || '{}');
+                return !!completedLevels[lvl];
+            }
+
+            markN4LevelCompleted(lvl) {
+                let completedLevels = JSON.parse(localStorage.getItem('yosh_completed_kotoban4_levels') || '{}');
+                completedLevels[lvl] = true;
+                localStorage.setItem('yosh_completed_kotoban4_levels', JSON.stringify(completedLevels));
+            }
+
+            isLevelUnlocked(lvl, type = 'n5') {
+                if (lvl === 1) return true;
+                if (type === 'n5') {
+                    return this.isLevelCompleted(lvl - 1);
+                } else {
+                    return this.isN4LevelCompleted(lvl - 1);
+                }
+            }
+
+            renderKotobaLevelGrid() {
+                const grid = document.getElementById('kotoba-level-grid');
+                grid.innerHTML = '';
+                for (let i = 1; i <= 25; i++) {
+                    const isCompleted = this.isLevelCompleted(i);
+                    const isUnlocked = this.isLevelUnlocked(i, 'n5');
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.id = `kotoba-lvl-btn-${i}`;
+                    
+                    let baseClass = 'py-3 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-center space-x-1 ';
+                    if (!isUnlocked) {
+                        baseClass += 'border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800/50 text-stone-400 dark:text-stone-600 cursor-not-allowed opacity-70';
+                    } else if (this.config.selectedKotobaLevel === i) {
+                        baseClass += 'border-matcha-600 bg-matcha-50 dark:bg-matcha-900/40 text-matcha-700 dark:text-matcha-300 ring-2 ring-matcha-500/30';
+                    } else if (isCompleted) {
+                        baseClass += 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300';
+                    } else {
+                        baseClass += 'border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:border-stone-300';
+                    }
+
+                    btn.className = baseClass;
+                    let iconHtml = '';
+                    if (!isUnlocked) iconHtml = '<i class="fa-solid fa-lock text-xs"></i>';
+                    else if (isCompleted) iconHtml = '<i class="fa-solid fa-check text-xs"></i>';
+
+                    btn.innerHTML = `<span>${i}</span> ${iconHtml}`;
+                    
+                    if (isUnlocked) {
+                        btn.onclick = () => this.selectKotobaLevel(i);
+                    } else {
+                        btn.onclick = () => alert('Selesaikan level sebelumnya terlebih dahulu untuk membuka level ini!');
+                    }
+                    grid.appendChild(btn);
+                }
+                document.getElementById('selected-level-badge').innerText = this.config.selectedKotobaLevel;
+            }
+
+            renderKotobaN4LevelGrid() {
+                const grid = document.getElementById('kotoban4-level-grid');
+                grid.innerHTML = '';
+                for (let i = 1; i <= 25; i++) {
+                    const isCompleted = this.isN4LevelCompleted(i);
+                    const isUnlocked = this.isLevelUnlocked(i, 'n4');
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.id = `kotoban4-lvl-btn-${i}`;
+                    
+                    let baseClass = 'py-3 rounded-xl border-2 font-bold text-sm transition-all flex items-center justify-center space-x-1 ';
+                    if (!isUnlocked) {
+                        baseClass += 'border-stone-200 dark:border-stone-700 bg-stone-100 dark:bg-stone-800/50 text-stone-400 dark:text-stone-600 cursor-not-allowed opacity-70';
+                    } else if (this.config.selectedKotobaN4Level === i) {
+                        baseClass += 'border-teal-600 bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 ring-2 ring-teal-500/30';
+                    } else if (isCompleted) {
+                        baseClass += 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300';
+                    } else {
+                        baseClass += 'border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:border-stone-300';
+                    }
+
+                    btn.className = baseClass;
+                    let iconHtml = '';
+                    if (!isUnlocked) iconHtml = '<i class="fa-solid fa-lock text-xs"></i>';
+                    else if (isCompleted) iconHtml = '<i class="fa-solid fa-check text-xs"></i>';
+
+                    btn.innerHTML = `<span>${i}</span> ${iconHtml}`;
+
+                    if (isUnlocked) {
+                        btn.onclick = () => this.selectKotobaN4Level(i);
+                    } else {
+                        btn.onclick = () => alert('Selesaikan level sebelumnya terlebih dahulu untuk membuka level ini!');
+                    }
+                    grid.appendChild(btn);
+                }
+                document.getElementById('selected-n4-level-badge').innerText = this.config.selectedKotobaN4Level;
+            }
+
+            selectKotobaLevel(lvl) {
+                if (!this.isLevelUnlocked(lvl, 'n5')) return;
+                this.config.selectedKotobaLevel = lvl;
+                this.renderKotobaLevelGrid();
+                document.getElementById('selected-level-badge').innerText = lvl;
+            }
+
+            selectKotobaN4Level(lvl) {
+                if (!this.isLevelUnlocked(lvl, 'n4')) return;
+                this.config.selectedKotobaN4Level = lvl;
+                this.renderKotobaN4LevelGrid();
+                document.getElementById('selected-n4-level-badge').innerText = lvl;
+            }
+
+            openKotobaIndexModal() {
+                document.getElementById('kotoba-index-modal').classList.remove('hidden');
+                this.renderKotobaIndexContent();
+            }
+
+            closeKotobaIndexModal() {
+                document.getElementById('kotoba-index-modal').classList.add('hidden');
+            }
+
+            openKotobaN4IndexModal() {
+                document.getElementById('kotoban4-index-modal').classList.remove('hidden');
+                this.renderKotobaN4IndexContent();
+            }
+
+            closeKotobaN4IndexModal() {
+                document.getElementById('kotoban4-index-modal').classList.add('hidden');
+            }
+
+            renderKotobaIndexContent() {
+                const container = document.getElementById('kotoba-index-content-area');
+                container.innerHTML = '';
+
+                for (let l = 1; l <= 25; l++) {
+                    const levelItems = KOTOBA_500.filter(item => item.level === l);
+                    const isCompleted = this.isLevelCompleted(l);
+                    const isUnlocked = this.isLevelUnlocked(l, 'n5');
+                    const section = document.createElement('div');
+                    section.className = `p-3.5 rounded-2xl border ${!isUnlocked ? 'opacity-60 bg-stone-100 dark:bg-stone-800/40 border-stone-200 dark:border-stone-700' : (isCompleted ? 'bg-emerald-50/60 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'bg-stone-50 dark:bg-stone-700/50 border-stone-100 dark:border-stone-700')}`;
+                    
+                    let itemsHtml = levelItems.map(item => `
+                        <div class="flex items-center justify-between py-1 border-b border-stone-200/50 dark:border-stone-600/50 last:border-0 text-xs">
+                            <span class="font-bold japanese-font text-stone-800 dark:text-stone-100 text-sm">${item.char}</span>
+                            <span class="text-matcha-700 dark:text-matcha-300 font-semibold japanese-font">${item.furigana}</span>
+                            <span class="text-stone-400 dark:text-stone-400 italic">${item.meaning}</span>
+                        </div>
+                    `).join('');
+
+                    section.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold ${!isUnlocked ? 'text-stone-400' : (isCompleted ? 'text-emerald-700 dark:text-emerald-400' : 'text-matcha-700 dark:text-matcha-300')} text-xs uppercase tracking-wider">
+                                    Level ${l} (20 Soal) ${!isUnlocked ? '<i class="fa-solid fa-lock ml-1 text-xs"></i>' : (isCompleted ? '<i class="fa-solid fa-circle-check ml-1"></i>' : '')}
+                                </span>
+                            </div>
+                            <button onclick="${isUnlocked ? `app.startKotobaQuizFromLevel(${l})` : `alert('Level terkunci! Selesaikan level sebelumnya terlebih dahulu.')`}" class="px-3 py-1 ${!isUnlocked ? 'bg-stone-300 dark:bg-stone-700 text-stone-500 cursor-not-allowed' : (isCompleted ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-matcha-600 hover:bg-matcha-700')} text-white font-bold text-[10px] rounded-lg transition-all">
+                                ${isUnlocked ? 'Latih Level Ini' : 'Terkunci'}
+                            </button>
+                        </div>
+                        <div class="max-h-36 overflow-y-auto pr-1 space-y-1">
+                            ${itemsHtml}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            }
+
+            renderKotobaN4IndexContent() {
+                const container = document.getElementById('kotoban4-index-content-area');
+                container.innerHTML = '';
+
+                for (let l = 1; l <= 25; l++) {
+                    const levelItems = KOTOBA_N4.filter(item => item.level === l);
+                    const isCompleted = this.isN4LevelCompleted(l);
+                    const isUnlocked = this.isLevelUnlocked(l, 'n4');
+                    const section = document.createElement('div');
+                    section.className = `p-3.5 rounded-2xl border ${!isUnlocked ? 'opacity-60 bg-stone-100 dark:bg-stone-800/40 border-stone-200 dark:border-stone-700' : (isCompleted ? 'bg-emerald-50/60 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'bg-stone-50 dark:bg-stone-700/50 border-stone-100 dark:border-stone-700')}`;
+                    
+                    let itemsHtml = levelItems.map(item => `
+                        <div class="flex items-center justify-between py-1 border-b border-stone-200/50 dark:border-stone-600/50 last:border-0 text-xs">
+                            <span class="font-bold japanese-font text-stone-800 dark:text-stone-100 text-sm">${item.char}</span>
+                            <span class="text-teal-700 dark:text-teal-300 font-semibold japanese-font">${item.furigana}</span>
+                            <span class="text-stone-400 dark:text-stone-400 italic">${item.meaning}</span>
+                        </div>
+                    `).join('');
+
+                    section.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold ${!isUnlocked ? 'text-stone-400' : (isCompleted ? 'text-emerald-700 dark:text-emerald-400' : 'text-teal-700 dark:text-teal-300')} text-xs uppercase tracking-wider">
+                                    Level ${l} (20 Soal) ${!isUnlocked ? '<i class="fa-solid fa-lock ml-1 text-xs"></i>' : (isCompleted ? '<i class="fa-solid fa-circle-check ml-1"></i>' : '')}
+                                </span>
+                            </div>
+                            <button onclick="${isUnlocked ? `app.startKotobaN4QuizFromLevel(${l})` : `alert('Level terkunci! Selesaikan level sebelumnya terlebih dahulu.')`}" class="px-3 py-1 ${!isUnlocked ? 'bg-stone-300 dark:bg-stone-700 text-stone-500 cursor-not-allowed' : (isCompleted ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-teal-600 hover:bg-teal-700')} text-white font-bold text-[10px] rounded-lg transition-all">
+                                ${isUnlocked ? 'Latih Level Ini' : 'Terkunci'}
+                            </button>
+                        </div>
+                        <div class="max-h-36 overflow-y-auto pr-1 space-y-1">
+                            ${itemsHtml}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            }
+
+            startKotobaQuizFromLevel(lvl) {
+                if (!this.isLevelUnlocked(lvl, 'n5')) {
+                    alert('Level ini masih terkunci! Selesaikan level sebelumnya terlebih dahulu.');
+                    return;
+                }
+                this.config.selectedKotobaLevel = lvl;
+                this.closeKotobaIndexModal();
+                this.startKotobaQuiz();
+            }
+
+            startKotobaN4QuizFromLevel(lvl) {
+                if (!this.isLevelUnlocked(lvl, 'n4')) {
+                    alert('Level ini masih terkunci! Selesaikan level sebelumnya terlebih dahulu.');
+                    return;
+                }
+                this.config.selectedKotobaN4Level = lvl;
+                this.closeKotobaN4IndexModal();
+                this.startKotobaN4Quiz();
+            }
+
+            setKanaType(type) {
+                this.config.kanaType = type;
+                document.querySelectorAll('.kana-type-btn').forEach(btn => {
+                    btn.classList.remove('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+                    btn.classList.add('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                });
+                const activeBtn = document.getElementById(`btn-type-${type}`);
+                activeBtn.classList.remove('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                activeBtn.classList.add('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+            }
+
+            setCategory(cat) {
+                this.config.category = cat;
+                document.querySelectorAll('.cat-btn').forEach(btn => {
+                    btn.classList.remove('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+                    btn.classList.add('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                });
+                const activeBtn = document.getElementById(`btn-cat-${cat}`);
+                activeBtn.classList.remove('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                activeBtn.classList.add('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+            }
+
+            setQuizMode(mode) {
+                this.config.quizMode = mode;
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+                    btn.classList.add('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                });
+                const activeBtn = document.getElementById(`btn-mode-${mode}`);
+                activeBtn.classList.remove('border-stone-200', 'dark:border-stone-700', 'bg-white', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-300');
+                activeBtn.classList.add('border-accent-500', 'bg-accent-50', 'dark:bg-accent-900/40', 'text-accent-700', 'dark:text-accent-300');
+            }
+
+            openIndexModal() {
+                document.getElementById('index-modal').classList.remove('hidden');
+                this.renderIndexContent('hiragana');
+            }
+
+            closeIndexModal() {
+                document.getElementById('index-modal').classList.add('hidden');
+            }
+
+            switchIndexTab(tab) {
+                ['hiragana', 'katakana', 'vocab'].forEach(t => {
+                    const btn = document.getElementById(`tab-idx-${t}`);
+                    if (t === tab) {
+                        btn.className = 'py-2.5 rounded-xl bg-white dark:bg-stone-800 text-accent-700 dark:text-accent-300 shadow-sm transition-all';
+                    } else {
+                        btn.className = 'py-2.5 rounded-xl text-stone-600 dark:text-stone-300 transition-all';
+                    }
+                });
+                this.renderIndexContent(tab);
+            }
+
+            renderIndexContent(type) {
+                const container = document.getElementById('index-content-area');
+                container.innerHTML = '';
+
+                if (type === 'vocab') {
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 gap-2';
+                    KANA_DATA.vocab.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'bg-stone-50 dark:bg-stone-700/50 p-3 rounded-2xl border border-stone-100 dark:border-stone-700 flex items-center justify-between';
+                        card.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl font-bold japanese-font w-24 text-center text-stone-800 dark:text-stone-100">${item.char}</span>
+                                <div>
+                                    <span class="text-xs font-semibold text-stone-700 dark:text-stone-200 block">${item.romaji}</span>
+                                    <span class="text-xs text-stone-400 dark:text-stone-400 block">${item.meaning}</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] bg-accent-50 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 px-2 py-1 rounded-full font-semibold">Vocab</span>
+                        `;
+                        grid.appendChild(card);
+                    });
+                    container.appendChild(grid);
+                } else {
+                    const cats = [
+                        { key: 'gojuuon', title: 'Gojuuon Dasar' },
+                        { key: 'dakuten', title: 'Dakuon & Handakuon' },
+                        { key: 'yoon', title: 'Yoon (Kombinasi)' }
+                    ];
+
+                    cats.forEach(c => {
+                        const section = document.createElement('div');
+                        section.className = 'mb-4';
+                        section.innerHTML = `<h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 dark:text-stone-400 mb-2">${c.title}</h4>`;
+                        
+                        const grid = document.createElement('div');
+                        grid.className = 'grid grid-cols-5 gap-2';
+                        
+                        if (KANA_DATA[type] && KANA_DATA[type][c.key]) {
+                            KANA_DATA[type][c.key].forEach(item => {
+                                const box = document.createElement('div');
+                                box.className = 'bg-stone-50 dark:bg-stone-700/50 p-2.5 rounded-xl border border-stone-100 dark:border-stone-700 text-center flex flex-col items-center justify-center';
+                                box.innerHTML = `
+                                    <span class="text-lg font-bold japanese-font text-stone-800 dark:text-stone-100">${item.char}</span>
+                                    <span class="text-[10px] text-stone-400 dark:text-stone-400 mt-0.5">${item.romaji}</span>
+                                `;
+                                grid.appendChild(box);
+                            });
+                        }
+                        section.appendChild(grid);
+                        container.appendChild(section);
+                    });
+                }
+            }
+
+            startQuiz() {
+                this.state.lastQuizType = 'kana';
+                let pool = [];
+                const types = [this.config.kanaType];
+                const categories = this.config.category === 'all' ? ['gojuuon', 'dakuten', 'yoon'] : [this.config.category];
+
+                types.forEach(t => {
+                    categories.forEach(c => {
+                        if (KANA_DATA[t] && KANA_DATA[t][c]) {
+                            pool = pool.concat(KANA_DATA[t][c].map(item => ({ char: item.char, target: item.romaji, type: t, category: c, meaning: '' })));
+                        }
+                    });
+                });
+
+                if (pool.length < 4) {
+                    alert('Koleksi soal kurang, pilih kategori lain.');
+                    return;
+                }
+
+                pool.sort(() => Math.random() - 0.5);
+                this.setupQuizState(pool.slice(0, 20));
+            }
+
+            startKotobaQuiz() {
+                if (!this.isLevelUnlocked(this.config.selectedKotobaLevel, 'n5')) {
+                    alert('Level ini masih terkunci! Selesaikan level sebelumnya terlebih dahulu.');
+                    return;
+                }
+                this.state.lastQuizType = 'kotoba';
+                let pool = KOTOBA_500.filter(item => item.level === this.config.selectedKotobaLevel).map(item => ({
+                    char: item.char,
+                    target: item.furigana,
+                    meaning: item.meaning,
+                    level: item.level
+                }));
+                pool.sort(() => Math.random() - 0.5);
+                this.setupQuizState(pool);
+            }
+
+            startKotobaN4Quiz() {
+                if (!this.isLevelUnlocked(this.config.selectedKotobaN4Level, 'n4')) {
+                    alert('Level ini masih terkunci! Selesaikan level sebelumnya terlebih dahulu.');
+                    return;
+                }
+                this.state.lastQuizType = 'kotoban4';
+                let pool = KOTOBA_N4.filter(item => item.level === this.config.selectedKotobaN4Level).map(item => ({
+                    char: item.char,
+                    target: item.furigana,
+                    meaning: item.meaning,
+                    level: item.level
+                }));
+                pool.sort(() => Math.random() - 0.5);
+                this.setupQuizState(pool);
+            }
+
+            setupQuizState(selectedPool) {
+                this.state.questions = selectedPool;
+                this.state.currentIndex = 0;
+                this.state.score = 0;
+                this.state.streak = 0;
+                this.state.correctCount = 0;
+                this.state.answersLog = [];
+
+                document.getElementById('view-config').classList.add('hidden');
+                document.getElementById('view-kotoba-config').classList.add('hidden');
+                document.getElementById('view-kotoban4-config').classList.add('hidden');
+                document.getElementById('view-result').classList.add('hidden');
+                document.getElementById('view-quiz').classList.remove('hidden');
+                document.getElementById('header-stats').classList.remove('hidden');
+                document.getElementById('stat-streak').innerText = '0';
+                document.getElementById('stat-score').innerText = '0';
+
+                this.loadQuestion();
+            }
+
+            restartLastQuiz() {
+                if (this.state.lastQuizType === 'kotoba') {
+                    this.startKotobaQuiz();
+                } else if (this.state.lastQuizType === 'kotoban4') {
+                    this.startKotobaN4Quiz();
+                } else {
+                    this.startQuiz();
+                }
+            }
+
+            loadQuestion() {
+                clearInterval(this.state.timerInterval);
+                this.state.isAnswerLocked = false;
+                const q = this.state.questions[this.state.currentIndex];
+                const total = this.state.questions.length;
+
+                document.getElementById('quiz-progress-text').innerText = `Pertanyaan ${this.state.currentIndex + 1} / ${total}`;
+                const pct = ((this.state.currentIndex + 1) / total) * 100;
+                document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+                const translationBox = document.getElementById('question-translation-box');
+                translationBox.classList.add('hidden');
+
+                if (this.state.lastQuizType === 'kotoba') {
+                    document.getElementById('quiz-category-badge').innerText = `KOTOBA N5 • LEVEL ${this.config.selectedKotobaLevel}`;
+                    document.getElementById('question-subtext').innerText = `Pilih atau ketik furigana (bacaan hiragana) yang tepat:`;
+                } else if (this.state.lastQuizType === 'kotoban4') {
+                    document.getElementById('quiz-category-badge').innerText = `KOTOBA N4 • LEVEL ${this.config.selectedKotobaN4Level}`;
+                    document.getElementById('question-subtext').innerText = `Pilih atau ketik furigana (bacaan hiragana) yang tepat:`;
+                } else {
+                    document.getElementById('quiz-category-badge').innerText = `${q.type.toUpperCase()} • ${q.category.toUpperCase()}`;
+                    document.getElementById('question-subtext').innerText = `Bagaimana cara membaca huruf di atas?`;
+                }
+                
+                document.getElementById('question-kana').innerText = q.char;
+
+                const multipleContainer = document.getElementById('mode-multiple-container');
+                const inputContainer = document.getElementById('mode-input-container');
+
+                if (this.state.lastQuizType === 'kotoba' || this.state.lastQuizType === 'kotoban4' || this.config.quizMode === 'multiple') {
+                    multipleContainer.classList.remove('hidden');
+                    inputContainer.classList.add('hidden');
+                    let allPoolOpts = this.state.lastQuizType === 'kotoba' 
+                        ? KOTOBA_500.map(v => v.furigana) 
+                        : (this.state.lastQuizType === 'kotoban4' ? KOTOBA_N4.map(v => v.furigana) : poolAllRomaji(this.config.kanaType));
+                    this.setupMultipleChoiceOptions(q, allPoolOpts);
+                } else {
+                    multipleContainer.classList.add('hidden');
+                    inputContainer.classList.remove('hidden');
+                    const inputEl = document.getElementById('romaji-input');
+                    inputEl.value = '';
+                    inputEl.className = 'w-full px-5 py-4 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 focus:border-accent-500 focus:outline-none text-center text-lg font-bold text-stone-700 dark:text-stone-100 placeholder:text-stone-300 dark:placeholder:text-stone-600 transition-all';
+                    setTimeout(() => inputEl.focus(), 100);
+                }
+
+                this.state.timeLeft = 15;
+                document.getElementById('quiz-timer').innerText = `${this.state.timeLeft}s`;
+                this.state.timerInterval = setInterval(() => {
+                    this.state.timeLeft--;
+                    document.getElementById('quiz-timer').innerText = `${this.state.timeLeft}s`;
+                    if (this.state.timeLeft <= 0) {
+                        clearInterval(this.state.timerInterval);
+                        this.handleAnswer(null, true);
+                    }
+                }, 1000);
+            }
+
+            setupMultipleChoiceOptions(currentQ, allPool) {
+                const container = document.getElementById('mode-multiple-container');
+                container.innerHTML = '';
+
+                const distractors = allPool
+                    .filter(r => r !== currentQ.target)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3);
+
+                const options = [...distractors, currentQ.target].sort(() => Math.random() - 0.5);
+
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'py-4 px-6 rounded-2xl border-2 border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-700/50 hover:bg-accent-50 dark:hover:bg-accent-900/40 hover:border-accent-500 text-stone-700 dark:text-stone-200 font-bold text-lg japanese-font transition-all';
+                    btn.innerText = opt;
+                    btn.onclick = () => this.handleAnswer(opt);
+                    container.appendChild(btn);
+                });
+            }
+
+            submitInputAnswer(e) {
+                e.preventDefault();
+                if (this.state.isAnswerLocked) return;
+                const inputEl = document.getElementById('romaji-input');
+                const val = inputEl.value.trim().toLowerCase();
+                if (!val) return;
+                this.handleAnswer(val);
+            }
+
+            handleAnswer(selectedVal, isTimeout = false) {
+                if (this.state.isAnswerLocked) return;
+                this.state.isAnswerLocked = true;
+                clearInterval(this.state.timerInterval);
+
+                const q = this.state.questions[this.state.currentIndex];
+                const isCorrect = !isTimeout && selectedVal === q.target;
+
+                if ((this.state.lastQuizType === 'kotoba' || this.state.lastQuizType === 'kotoban4') && q.meaning) {
+                    document.getElementById('translation-text').innerText = q.meaning;
+                    document.getElementById('question-translation-box').classList.remove('hidden');
+                }
+
+                this.state.answersLog.push({
+                    char: q.char,
+                    correctTarget: q.target,
+                    userTarget: isTimeout ? '(Waktu Habis)' : selectedVal,
+                    isCorrect: isCorrect,
+                    meaning: q.meaning || ''
+                });
+
+                if (isCorrect) {
+                    this.state.correctCount++;
+                    this.state.streak++;
+                    this.state.score += 10 + (this.state.streak * 2);
+                } else {
+                    this.state.streak = 0;
+                }
+
+                document.getElementById('stat-streak').innerText = this.state.streak;
+                document.getElementById('stat-score').innerText = this.state.score;
+
+                if (this.state.lastQuizType === 'kotoba' || this.state.lastQuizType === 'kotoban4' || this.config.quizMode === 'multiple') {
+                    const buttons = document.getElementById('mode-multiple-container').querySelectorAll('button');
+                    buttons.forEach(btn => {
+                        if (btn.innerText === q.target) {
+                            btn.classList.remove('border-stone-200', 'dark:border-stone-700', 'bg-stone-50', 'dark:bg-stone-700/50', 'text-stone-700', 'dark:text-stone-200');
+                            btn.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-900/40', 'text-emerald-700', 'dark:text-emerald-300');
+                        } else if (btn.innerText === selectedVal && !isCorrect) {
+                            btn.classList.remove('border-stone-200', 'dark:border-stone-700', 'bg-stone-50', 'dark:bg-stone-700/50', 'text-stone-700', 'dark:text-stone-200');
+                            btn.classList.add('border-rose-500', 'bg-rose-50', 'dark:bg-rose-900/40', 'text-rose-700', 'dark:text-rose-300', 'animate-shake');
+                        }
+                        btn.disabled = true;
+                    });
+                } else {
+                    const inputEl = document.getElementById('romaji-input');
+                    if (isCorrect) {
+                        inputEl.classList.add('border-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-900/40', 'text-emerald-700', 'dark:text-emerald-300');
+                    } else {
+                        inputEl.classList.add('border-rose-500', 'bg-rose-50', 'dark:bg-rose-900/40', 'text-rose-700', 'dark:text-rose-300', 'animate-shake');
+                    }
+                }
+
+                setTimeout(() => {
+                    this.state.currentIndex++;
+                    if (this.state.currentIndex < this.state.questions.length) {
+                        this.loadQuestion();
+                    } else {
+                        this.showResult();
+                    }
+                }, 1600);
+            }
+
+            showResult() {
+                document.getElementById('view-quiz').classList.add('hidden');
+                document.getElementById('header-stats').classList.add('hidden');
+                document.getElementById('view-result').classList.remove('hidden');
+
+                const total = this.state.questions.length;
+                const accuracy = Math.round((this.state.correctCount / total) * 100);
+
+                if (this.state.lastQuizType === 'kotoba' && accuracy === 100) {
+                    this.markLevelCompleted(this.config.selectedKotobaLevel);
+                } else if (this.state.lastQuizType === 'kotoban4' && accuracy === 100) {
+                    this.markN4LevelCompleted(this.config.selectedKotobaN4Level);
+                }
+
+                this.state.totalQuizDone++;
+                this.state.cumulativeScore += this.state.score;
+
+                localStorage.setItem('yosh_total_quiz', this.state.totalQuizDone);
+                localStorage.setItem('yosh_cumulative_score', this.state.cumulativeScore);
+
+                if (this.state.playerName) {
+                    localStorage.setItem('yosh_player_name', this.state.playerName);
+                    this.syncScoreOnline(this.state.playerName, this.state.score);
+                }
+                this.updateHomeStats();
+
+                document.getElementById('final-score').innerText = this.state.score;
+                document.getElementById('final-correct').innerText = `${this.state.correctCount}/${total}`;
+                document.getElementById('final-accuracy').innerText = `${accuracy}%`;
+
+                let greetingName = this.state.playerName ? ` ${this.state.playerName}` : '';
+                let sub = `Kerja bagus${greetingName}, poin sesimu telah ditambahkan ke total online!`;
+                if (accuracy === 100) {
+                    sub = `Luar biasa${greetingName}! Sempurna 100%! Level berhasil dituntaskan & level berikutnya terbuka!`;
+                } else {
+                    sub = `Kerja bagus${greetingName}! Dapatkan akurasi 100% untuk membuka level berikutnya.`;
+                }
+                document.getElementById('result-subtitle').innerText = sub;
+
+                const reviewList = document.getElementById('review-list');
+                reviewList.innerHTML = '';
+                this.state.answersLog.forEach((item) => {
+                    const row = document.createElement('div');
+                    row.className = `p-3 rounded-xl border flex items-center justify-between text-sm ${item.isCorrect ? 'bg-emerald-50/50 dark:bg-emerald-900/30 border-emerald-100 dark:border-emerald-800' : 'bg-rose-50/50 dark:bg-rose-900/30 border-rose-100 dark:border-rose-800'}`;
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xl font-bold japanese-font w-16 text-center text-stone-800 dark:text-stone-100">${item.char}</span>
+                            <div>
+                                <span class="text-xs text-stone-500 dark:text-stone-400 block">${item.meaning ? `(${item.meaning}) ` : ''}Jawabanmu: <strong class="${item.isCorrect ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'} japanese-font">${item.userTarget}</strong></span>
+                                ${!item.isCorrect ? `<span class="text-xs text-stone-500 dark:text-stone-400 block">Koreksi: <strong class="text-emerald-600 dark:text-emerald-400 japanese-font">${item.correctTarget}</strong></span>` : ''}
+                            </div>
+                        </div>
+                        <div>
+                            ${item.isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>' : '<i class="fa-solid fa-circle-xmark text-rose-500 text-base"></i>'}
+                        </div>
+                    `;
+                    reviewList.appendChild(row);
+                });
+            }
+
+            returnToHome() {
+                clearInterval(this.state.timerInterval);
+                document.getElementById('view-quiz').classList.add('hidden');
+                document.getElementById('view-result').classList.add('hidden');
+                document.getElementById('header-stats').classList.add('hidden');
+                document.getElementById('view-config').classList.add('hidden');
+                document.getElementById('view-kotoba-config').classList.add('hidden');
+                document.getElementById('view-kotoban4-config').classList.add('hidden');
+                document.getElementById('view-home').classList.remove('hidden');
+                this.fetchGlobalLeaderboard();
+            }
+        }
+
+        function poolAllRomaji(type) {
+            let list = [];
+            const cats = ['gojuuon', 'dakuten', 'yoon'];
+            cats.forEach(c => {
+                if (KANA_DATA[type] && KANA_DATA[type][c]) {
+                    list = list.concat(KANA_DATA[type][c].map(i => i.romaji));
+                }
+            });
+            return list;
+        }
+
+        const app = new KanaQuizApp();
+    </script>
+</body>
+</html>
